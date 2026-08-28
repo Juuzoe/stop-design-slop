@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.1.0 — 2026-08-28
+
+Multi-agent support. The catalog is unchanged — this makes the skill run properly outside Claude Code.
+
+- **Codex support:** install instructions for `~/.codex/skills/` and the repo-level `.agents/skills/` convention, `$stop-design-slop` invocation, and an `agents/openai.yaml` metadata file.
+- **Agent compatibility section** in `SKILL.md`: a per-host capture table (Claude Code / Codex / any other agent) and an explicit no-browser fallback path.
+- **Tool-agnostic capture step** — no tool is required by name anymore; the audit degrades honestly and labels categories it couldn't verify instead of guessing.
+- README: per-host install tabs, Claude Code + Codex badges, and a "does it need a browser?" FAQ entry.
+
 ## v1.0.0 — 2026-08-28
 
 Initial release.

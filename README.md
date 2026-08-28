@@ -7,7 +7,8 @@
 284 researched tells · severity-ranked · each with a surgical fix · audits existing sites or builds slop-free from scratch
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Agent Skill](https://img.shields.io/badge/agent-skill-blue.svg)](SKILL.md)
+[![Claude Code](https://img.shields.io/badge/Claude_Code-ready-6b4bff.svg)](#install)
+[![Codex](https://img.shields.io/badge/Codex-ready-0b7285.svg)](#install)
 [![Catalog](https://img.shields.io/badge/tells-284-orange.svg)](#what-it-catches)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
@@ -23,7 +24,10 @@ This skill fixes that. It walks your site against a catalog of **284 documented 
 
 ## Install
 
-Claude Code, global (all projects):
+It's an open-standard `SKILL.md` folder, so it drops into any agent that reads skills — **Claude Code**, **Codex**, Cursor, Gemini CLI. Pick your host:
+
+<details open>
+<summary><b>Claude Code</b></summary>
 
 ```bash
 # macOS / Linux
@@ -35,7 +39,38 @@ git clone https://github.com/Juuzoe/stop-design-slop ~/.claude/skills/stop-desig
 git clone https://github.com/Juuzoe/stop-design-slop "$env:USERPROFILE\.claude\skills\stop-design-slop"
 ```
 
-Per-project instead: clone into `<project>/.claude/skills/stop-design-slop`. Update anytime with `git pull`. Works in Claude Code (CLI, desktop, web) and any runtime that reads Anthropic's Agent Skills format (a folder with a `SKILL.md`).
+Per-project instead: clone into `<project>/.claude/skills/stop-design-slop`. Invoke with `/stop-design-slop`.
+</details>
+
+<details open>
+<summary><b>Codex</b></summary>
+
+```bash
+# macOS / Linux
+git clone https://github.com/Juuzoe/stop-design-slop ~/.codex/skills/stop-design-slop
+```
+
+```powershell
+# Windows
+git clone https://github.com/Juuzoe/stop-design-slop "$env:USERPROFILE\.codex\skills\stop-design-slop"
+```
+
+Restart Codex, then run `/skills` or type `$stop-design-slop`. For a repo-scoped install (shared with your team, and the cross-agent convention), clone into `.agents/skills/stop-design-slop` at the repository root instead — Codex reads skills from repository, user, admin, and system locations.
+</details>
+
+<details>
+<summary><b>Cursor, Gemini CLI, other agents</b></summary>
+
+Clone into that agent's skills directory — or anywhere, and point the agent at `SKILL.md`:
+
+```bash
+git clone https://github.com/Juuzoe/stop-design-slop
+```
+
+The skill names no tool as a hard requirement; see [Agent compatibility](SKILL.md#agent-compatibility) for how the capture step adapts to whatever browser/fetch/shell tools your agent has.
+</details>
+
+Update anytime with `git pull`.
 
 ## Use
 
@@ -48,7 +83,7 @@ Per-project instead: clone into `<project>/.claude/skills/stop-design-slop`. Upd
 /stop-design-slop copy                    scope to copywriting (also: visual, code)
 ```
 
-Or just tell Claude *"this looks AI-generated, fix it"* — the skill triggers on that too.
+In Codex, swap the leading `/` for `$` (`$stop-design-slop https://yoursite.com`). Or just say *"this looks AI-generated, fix it"* in any agent — the description triggers it.
 
 Every audit produces a report: a one-sentence 5-second verdict, a **Slop Score** (`3×instant + 2×strong + 1×mild`), findings cited by catalog number with a fix each, a do-not-touch list of what already works, and a four-pass fix plan that ends with adding something distinctive — because a de-slopped site with nothing added is just quieter slop.
 
@@ -112,6 +147,8 @@ And yes — this README was audited with its own copy catalog. Zero rocket emoji
 **Will it make every site look the same "non-AI" way?** No — the fixes are directions, not prescriptions, and the identity-injection pass is explicitly derived from *your* brand, product, and audience. Sameness is the disease here, not the cure.
 
 **Does it work on apps, or just landing pages?** Both. There are dedicated tells for app shells (#62, the default dashboard scaffold), empty states, forms, and motion systems.
+
+**Does it need a browser to work?** No. Rendering is better — some visual tells can only be seen — but without it the skill audits the code, runs the greppable VOCAB sweep, and tells you in the report which categories it couldn't verify instead of guessing.
 
 **My site was built with v0/Lovable/Bolt. Is it doomed?** No — that's the primary use case. Catalog 7 exists specifically to strip builder fingerprints, and PREVENT mode keeps the next build clean.
 

@@ -1,0 +1,8 @@
+name: stop-design-slop
+description: >-
+  Audit a website or webapp for "AI slop" — the tells that make a first glance
+  read as AI-generated — and remove them without degrading the site. Also runs
+  in prevention mode when building new UI from scratch.
+version: 1.1.0
+homepage: https://github.com/Juuzoe/stop-design-slop
+license: MIT

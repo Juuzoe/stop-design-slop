@@ -44,8 +44,10 @@ Each entry: **#N. Name** (severity) — the tell → **Fix**. Severities: **inst
 ## AUDIT workflow
 
 ### 1. Capture
-- **Live URL:** open in the Browser pane. Screenshot the full page at desktop, then `resize_window` to mobile preset and screenshot again. Run `get_page_text` for the copy sweep. Check the tab title + favicon. Open 1–2 secondary pages (pricing, about) if they exist.
-- **Codebase:** Glob the UI source; Read entry pages, global CSS/tailwind config, and layout components. Run the grep sweep (each catalog file ends with a `VOCAB` block of greppable strings). If a dev server is configured, launch it via the Browser pane and capture as above — judge the *rendered* site whenever possible; code alone misses visual tells.
+Use whatever capture tools the host agent actually has (see **Agent compatibility** below) — the catalog is the same either way.
+- **Live URL:** load the page and screenshot the full page at desktop width, then at a ~375px mobile width. Extract the page text for the copy sweep. Check the tab title + favicon. Open 1–2 secondary pages (pricing, about) if they exist.
+- **No browser available:** fetch the raw HTML/CSS instead and audit it, then ask the user for two screenshots (desktop + mobile). Say plainly which visual tells you could not check without rendering.
+- **Codebase:** find the UI source; read entry pages, global CSS/theme config, and layout components. Run the grep sweep (each catalog file ends with a `VOCAB` block of greppable strings). If a dev server exists, run it and capture the rendered page — judge the *rendered* site whenever possible; code alone misses visual tells.
 - Note what the site is FOR and who it serves — fixes must fit the brand, not a generic taste.
 
 ### 2. Detect
@@ -106,6 +108,19 @@ De-slopping subtracts; this pass adds the thing that makes the site *someone's*.
 4. **At most one signature motion** — doing a job (revealing, confirming, guiding), everything else calm.
 5. **Real content everywhere** — every number sourced, every quote attributable, every image intentional. Specificity is the single strongest anti-AI signal.
 
+## Agent compatibility
+
+This skill is plain Markdown against the open `SKILL.md` standard — no tool is required by name. It runs in Claude Code, Codex, Cursor, Gemini CLI, and anything else that reads skill folders. Adapt only the capture step:
+
+| Host | Capture with |
+|---|---|
+| **Claude Code** | Browser pane (`preview_start`/`navigate`, `computer` screenshot, `resize_window` for mobile, `get_page_text`), plus Glob/Read/Grep for code |
+| **Codex** | Its browser/web tools where enabled; otherwise fetch the HTML, audit the code, and request screenshots from the user. Shell (`curl`, `rg`) covers the VOCAB grep sweep |
+| **Any other agent** | Any fetch/screenshot/search tools available; fall back to the "no browser available" path above |
+
+Degrade honestly: if a mode can't be run (no rendering, no shell), still run the catalog against what you *can* see and label the untested categories in the report rather than guessing.
+
 ## Related skills
+Optional — use if the host provides them; skip silently otherwise.
 - `design-taste` / `frontend-design` — positive design direction once slop is gone; this skill is the tell-detector, those are the taste.
 - `stop-slop` (Anthropic) — long-form prose de-AI-ing; use it for blog posts/docs on the site. UI copy is covered here in `copy-content.md`.
