@@ -6,14 +6,14 @@ title: "[Tell] "
 
 **Name of the tell**
 
-**Severity** (instant / strong / mild — see CONTRIBUTING.md rubric):
+**Severity** (instant / strong / mild, per the CONTRIBUTING.md rubric):
 
-**Tell** — what it looks like, concretely:
+**Tell.** What it looks like, concretely:
 
-**Why** — why it reads as AI-generated:
+**Why.** Why it signals AI generation:
 
-**Fix** — the surgical replacement (must not delete functionality or reduce accessibility):
+**Fix.** The surgical replacement. It must keep functionality and accessibility intact:
 
-**Source** — link where it's documented/discussed, or `expert`:
+**Source.** A link where someone documents or discusses it, or `expert`:
 
-**Checked for duplicates?** Which catalog files did you search, and what's the nearest existing entry (#N)?
+**Duplicate check.** Which catalog files did you search, and what is the nearest existing entry (#N)?

@@ -6,8 +6,8 @@ title: "[FP] "
 
 **Catalog entry** (#N and name):
 
-**What happened** — what was flagged or changed:
+**What happened.** What the skill flagged or changed:
 
-**Why it's wrong** — why this is genuinely good design / a real brand asset / a regression (screenshots or links help):
+**Why it is wrong.** Make the case that this is good design, a real brand asset, or a regression. Screenshots and links help:
 
-**Regression type, if any** (contrast / focus states / functionality / mobile layout / performance / other):
+**Regression type**, if any (contrast, focus states, functionality, mobile layout, performance, other):

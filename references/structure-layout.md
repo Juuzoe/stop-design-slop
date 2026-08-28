@@ -1,341 +1,341 @@
-# Catalog 1/7 — Structure & layout (#1–63)
+# Catalog 1/7: Structure & layout (#1–63)
 
 Page architecture, hero formulas, section patterns, grids, spacing, nav/footer skeletons, information architecture, mobile. Severity: **instant** = triggers "AI made this" in the first 5 seconds · **strong** = obvious on one scroll · **mild** = counts in aggregate.
 
 ## Hero construction
 
 **1. Announcement pill badge above the hero H1** (instant)
-Tell: rounded-full pill chip floating directly above the headline — "✨ Announcing our Series A", "New: v2.0 is live →" — with sparkle emoji, colored dot, or chevron, thin border, tinted background.
-Why: it is the literal top block of every v0/shadcn hero template; real companies only run announcement chips when there is dated news that links somewhere.
-Fix: delete unless there is actual news; if real, link it to a dated changelog/blog post and restyle as a small text link near the nav rather than a hero centerpiece.
+Tell: rounded-full pill chip sitting above the headline, reading "✨ Announcing our Series A" or "New: v2.0 is live →", with a sparkle emoji or colored dot, thin border, tinted background.
+Why: v0 and shadcn put this block at the top of every hero template they ship. Companies with real news date it and link it somewhere.
+Fix: delete the chip when you have no news. With news, point it at a dated changelog or blog post and restyle it as a small text link near the nav.
 
 **2. Centered single-column hero stack** (instant)
 Tell: badge → oversized H1 → two-line gray subheadline → two buttons → screenshot, every element centered on the page axis in one narrow column.
-Why: statistically the most common hero in LLM training data, so every generator converges on it.
-Fix: keep the same content but move to an asymmetric two-column grid (copy left, visual right-anchored) or left-align the stack against a wide margin.
+Why: this is the most common hero in LLM training data, so every generator converges on it.
+Fix: keep the content and move it into an asymmetric two-column grid (copy left, visual right-anchored), or left-align the whole stack against a wide margin.
 
 **3. Dual-CTA formula (solid + ghost)** (instant)
 Tell: primary filled "Get Started" beside a ghost/outline "Learn More", equal size, side by side under the subheadline.
-Why: the default two-button pair shipped in every hero block library; humans usually commit to one action.
-Fix: one primary CTA with a specific destination; demote the secondary to an inline text link pointing somewhere concrete (docs, demo video, pricing).
+Why: every hero block library ships this button pair as its default. Humans commit to one action.
+Fix: run one primary CTA with a specific destination, and demote the secondary to an inline text link pointing at something concrete (docs, a demo video).
 
 **4. Floating browser-chrome product screenshot** (instant)
 Tell: hero screenshot wrapped in a fake macOS/browser frame (traffic-light dots, URL bar), drop-shadowed or glowing, often tilted in perspective and cut off by the fold.
-Why: standard v0/Lovable hero visual; the frame signals "mockup" rather than product.
-Fix: crop to a real, legible piece of the actual UI at natural scale, annotate one real workflow, or use a short product capture — drop the decorative window chrome.
+Why: v0 and Lovable reach for this hero visual by default, and visitors read the window frame as a sign of a mockup.
+Fix: crop to a legible piece of the real UI at natural scale and annotate one workflow, or record a short product capture. Drop the decorative window chrome.
 
 **5. Avatar-cluster + stars social-proof line under CTAs** (instant)
-Tell: 3–5 overlapping circular avatars, five gold stars, and "Loved by 10,000+ developers" directly beneath the hero buttons.
-Why: shipped verbatim in hero-block libraries; the avatars are stock and the number is invented.
-Fix: one verifiable proof point (named customer quote, linked G2/App Store rating) or remove until real numbers exist.
+Tell: 3–5 overlapping circular avatars, five gold stars, and "Loved by 10,000+ developers" beneath the hero buttons.
+Why: hero-block libraries ship this line verbatim. The avatars come from stock sets and the model invents the number.
+Fix: show one verifiable proof point, such as a named customer quote or a linked G2/App Store rating. Remove the line until you have real numbers.
 
 **6. min-h-screen hero with dead space** (strong)
-Tell: hero forced to exactly 100vh, small content island vertically centered, huge empty margins, next section reveals zero pixels above the fold.
-Why: `min-h-screen flex items-center justify-center` is the generator default; humans size heroes to content and let the page peek.
-Fix: size the hero to its content and let the top of the next section show above the fold to invite scrolling.
+Tell: hero forced to 100vh, a small content island floating at its center, huge empty margins, and zero pixels of the next section above the fold.
+Why: `min-h-screen flex items-center justify-center` is the generator default. Designers size heroes to their content and let the page peek.
+Fix: size the hero to what it holds, so the top of the next section shows above the fold and invites a scroll.
 
 **7. 50/50 split hero (text left, visual right)** (strong)
-Tell: the other default hero — perfect half-and-half split, headline stack left, illustration/screenshot right, both vertically centered, followed by three feature boxes.
-Why: the pre-2024 Tailwind-template average that AI reproduces when not centering.
-Fix: break the ratio (60/40 or 7/5), bleed the visual to the viewport edge, or let it overlap the section below.
+Tell: the fallback hero when the generator skips centering. An even half-and-half split, headline stack left, illustration or screenshot right, both aligned on the vertical axis, followed by three feature boxes.
+Why: this was the pre-2024 Tailwind-template average, and models reproduce it.
+Fix: break the ratio to 60/40 or 7/5, and bleed the visual past the viewport edge or over the section below.
 
 **8. Full-sentence display headline dominating the viewport** (strong)
-Tell: an entire sentence set at 60–96px filling the hero, pushing everything else down.
-Why: generators equate "hero" with "maximum font size" regardless of copy length.
-Fix: tighten the headline to a short phrase at display size and move the detail into the subheadline, or step the size down.
+Tell: an entire sentence set at 60–96px filling the hero and pushing everything else down.
+Why: generators equate "hero" with "maximum font size" whatever the copy length.
+Fix: cut the headline to a short phrase at display size and move the detail into the subheadline, or step the size down.
 
 **9. Double-mockup hero (desktop + tilted phone)** (mild)
-Tell: laptop screenshot with a smaller phone mockup overlapping its corner at an angle, both generic device frames.
-Why: stock "we're multi-platform" composition from template marketplaces that AI mimics.
-Fix: show one honest visual of the surface users actually live in; mention platform support in text.
+Tell: laptop screenshot with a smaller phone mockup overlapping its corner at an angle, both in generic device frames.
+Why: template marketplaces sell this "we're multi-platform" composition, and models copy it.
+Fix: show one honest visual of the surface users live in, and mention platform support in text.
 
 ## Section patterns & order
 
 **10. Canonical section conveyor belt** (instant)
-Tell: the exact scroll order hero → logo bar → 3-column features → how-it-works → testimonials → pricing → FAQ → final CTA band → mega footer.
-Why: models learned this as "what a landing page is" — the average of the training corpus; every generated site that week shares it.
-Fix: reorder around the buyer's actual questions, delete sections lacking real content, merge features + how-it-works into one deep product story.
+Tell: the same scroll order every time, hero → logo bar → 3-column features → how-it-works → testimonials → pricing → FAQ → final CTA band → mega footer.
+Why: models learned this order as the definition of a landing page, averaged out of the training corpus, and every site generated that week shares it.
+Fix: reorder around the questions buyers ask, delete sections with no real content behind them, and merge features and how-it-works into one deep product story.
 
 **11. Eyebrow → H2 → subtitle ritual on every section** (strong)
 Tell: each section opens with a centered tiny all-caps eyebrow ("FEATURES", "TESTIMONIALS"), an H2, and one gray subtitle sentence, then the content grid.
-Why: the universal section-header scaffold in generated code; the *repetition* of the identical formula is the tell.
-Fix: vary header treatment per section — left-align some, drop eyebrows that duplicate nav labels, let one section open with content instead of a header.
+Why: generated code uses this scaffold for every section header, and the repetition of the identical formula gives it away.
+Fix: vary the header treatment per section. Left-align some and drop eyebrows that repeat nav labels, then open at least one section with content and no header at all.
 
 **12. Logo bar as mandatory section two** (strong)
-Tell: grayscale customer-logo row titled "Trusted by leading teams" immediately after the hero, regardless of whether the product has customers.
-Why: generators insert social proof positionally, not evidentially.
-Fix: only real, permissioned logos; with fewer than ~5 real customers, replace the strip with one named case-study sentence.
+Tell: grayscale customer-logo row titled "Trusted by leading teams" right after the hero, whether or not the product has customers.
+Why: the generator fills the slot by position and never checks whether the evidence exists.
+Fix: show real, permissioned logos. Below about five customers, replace the strip with one named case-study sentence.
 
 **13. Infinite logo marquee** (strong)
-Tell: auto-scrolling duplicated logo loop with faded edges, often the only motion on the page.
-Why: a one-prompt add-on component that reads as template; looping hides how few logos exist.
-Fix: static, generously spaced row of real logos; reserve a marquee for genuinely long lists (12+), and keep it pausable.
+Tell: auto-scrolling duplicated logo loop with faded edges, often the one piece of motion on the page.
+Why: one prompt adds this component, and the loop covers how few logos exist.
+Fix: lay out real logos in a static row with wide spacing. Reserve a marquee for lists of 12 or more, and keep it pausable.
 
 **14. Placeholder company logos** (instant)
-Tell: "trusted by" strip contains gray text names — Acme Corp, TechCorp, Globex, Initech — or obviously generated marks.
-Why: the model fills the slot with fictional companies when none are supplied.
-Fix: delete the section entirely until real logos exist; fabricated logos are a trust liability, not decoration.
+Tell: the "trusted by" strip carries gray text names such as Acme Corp, TechCorp, Globex, and Initech, or marks the model drew itself.
+Why: the model fills the slot with fictional companies when nobody supplies real ones.
+Fix: delete the section until you have real logos. Fabricated logos cost you trust.
 
 **15. Three-numbered-steps "How it works"** (strong)
-Tell: exactly three circles labeled 01/02/03 joined by a connector line, each with icon, title, and one sentence — regardless of the product's real flow.
-Why: a named vibe-code pattern; real onboarding rarely has exactly three abstract steps.
-Fix: show the actual flow with real UI states as visuals, use however many steps reality has, annotate screenshots instead of abstract numbered circles.
+Tell: three circles labeled 01/02/03 joined by a connector line, each with icon, title, and one sentence, whatever the product's real flow looks like.
+Why: this is a named vibe-code pattern, and few real onboarding flows come out to three abstract steps.
+Fix: show the flow you ship, using real UI states as visuals and as many steps as it takes. Annotate screenshots in place of abstract numbered circles.
 
 **16. Four-stat metrics banner** (strong)
-Tell: one row of four big numbers with small labels — "10K+ users / 99.9% uptime / 4.9★ / 24/7 support" — often between hero and features.
-Why: "big number, small label, three supporting stats — used everywhere, trusted nowhere"; the numbers are usually invented.
-Fix: keep only metrics you can source and date, place them in narrative next to the claim they support, delete the rest.
+Tell: one row of four big numbers with small labels ("10K+ users / 99.9% uptime / 4.9★ / 24/7 support"), often sitting between hero and features.
+Why: "big number, small label, three supporting stats — used everywhere, trusted nowhere"; the model invents the figures.
+Fix: keep the metrics you can source and date, and put each one next to the claim it supports. Cut the rest.
 
 **17. Impossible social proof on a pre-launch site** (instant)
-Tell: a waitlist/beta product displaying "Trusted by 10,000+ professionals", a testimonial wall, and enterprise logos alongside "Join the waitlist".
-Why: the logical contradiction (zero-traffic site, five-figure userbase) outs the generator instantly.
-Fix: honest traction — "In private beta with 12 teams since May" — specificity converts better than fiction.
+Tell: a waitlist or beta product showing "Trusted by 10,000+ professionals", a testimonial wall, and enterprise logos beside "Join the waitlist".
+Why: a zero-traffic site claiming a five-figure userbase contradicts itself, and readers catch it in one glance.
+Fix: state traction a reader can check, such as "In private beta with 12 teams since May".
 
 **18. Uniform testimonial card wall** (strong)
-Tell: 3-column grid of identical cards, each avatar + name + title + five stars + a quote of suspiciously equal length and enthusiasm.
-Why: every card gets the same layout math with zero asymmetric breaks — real quotes vary wildly in length and specificity.
-Fix: fewer, longer, verifiable testimonials with full names, companies, and links; feature one as a large pull-quote and let the rest differ in size.
+Tell: 3-column grid of identical cards, each with avatar, name, title, five stars, and a quote of near-equal length and enthusiasm.
+Why: every card runs the same layout math with no asymmetric break, while real quotes vary in length and specificity.
+Fix: use fewer, longer testimonials with full names, companies, and links. Pull one out as a large quote and let the others differ in size.
 
 **19. Opposing-direction testimonial marquees** (strong)
-Tell: two or three rows of testimonial cards auto-scrolling horizontally in alternating directions.
-Why: a signature v0/Magic-UI component; motion applied to trust content signals decoration over evidence.
-Fix: make testimonials static and readable; if genuinely many, a filterable or paginated static grid preserves them all.
+Tell: two or three rows of testimonial cards auto-scrolling in alternating directions.
+Why: this is a signature v0 and Magic-UI component, and putting trust content in motion turns evidence into decoration.
+Fix: hold testimonials still and readable. For a large set, a filterable or paginated static grid keeps them all.
 
 **20. Three-tier pricing with sanctified middle card** (strong)
-Tell: Starter/Pro/Enterprise cards, middle one scaled up or ring-bordered with "Most Popular", all three with near-identical checkmark lists differing by one line.
-Why: the most templated pricing composition on the internet, reproduced by default with invented prices.
-Fix: keep tiers but make differences real — distinct feature sets, actual prices, a badge only if backed by data; consider a usage slider or comparison table if that matches the real model.
+Tell: Starter/Pro/Enterprise cards, the middle one scaled up or ring-bordered with "Most Popular", all three carrying near-identical checkmark lists that differ by one line.
+Why: this is the most templated pricing composition on the internet, and models reproduce it with invented prices.
+Fix: keep the tiers and make the differences real, with distinct feature sets and actual prices, plus a badge when the data supports one. A usage slider or comparison table may fit your model better.
 
 **21. Ritual FAQ accordion** (mild)
-Tell: 5–6 chevron accordion rows in a narrow centered column titled "Frequently asked questions", just before the footer, with questions no user asked.
-Why: generators append an FAQ as a structural obligation; the accordion hides thin answers.
-Fix: source questions from real users/support; if few, show answers as visible text; move objection-handling next to the section it concerns (pricing questions at pricing).
+Tell: 5–6 chevron accordion rows in a narrow centered column titled "Frequently asked questions", placed before the footer, answering questions no user asked.
+Why: the generator appends an FAQ to satisfy the structure, and the accordion hides how thin the answers are.
+Fix: pull questions from users and support tickets. With few of them, show the answers as visible text, and move objection-handling next to the section it concerns (pricing questions at pricing).
 
 **22. "Ready to get started?" final CTA band** (strong)
 Tell: full-width colored band above the footer with a centered H2 ("Ready to get started?" / "Start building today"), one sentence, and a white button.
-Why: the terminal block of the canonical template; phrasing and placement interchangeable across thousands of generated sites.
-Fix: keep a closing CTA but make it specific to product and audience, and vary its structure — e.g., side-by-side with a proof point or a founder note instead of the centered band.
+Why: this is the terminal block of the canonical template, and its phrasing and placement swap between thousands of generated sites without changing.
+Fix: keep a closing CTA, write it for your product and audience, and vary the structure. Set it side by side with a proof point or a founder note in place of the centered band.
 
 **23. All-green-vs-all-red comparison table** (mild)
-Tell: "Why choose us" table where your column is entirely green checks and the competitor column entirely red X marks.
-Why: generated competitive sections optimize for the pattern, not the truth; no real comparison is a shutout.
-Fix: compare on real dimensions including one honest tradeoff, name sources, link claims — credibility beats symmetry.
+Tell: "Why choose us" table where your column carries green checks all the way down and the competitor column carries red X marks.
+Why: generated competitive sections optimize for the pattern and skip the truth. No real comparison ends in a shutout.
+Fix: compare on real dimensions, include one honest tradeoff, and link each claim to its source.
 
 **24. Decorative integration grid** (mild)
-Tell: "Works with your favorite tools" wall or orbit of famous app icons (Slack, Notion, Figma) with no actual integrations behind them.
-Why: the integration cloud is a stock credibility section added regardless of shipped functionality.
-Fix: show only live integrations and link each icon to its setup docs; if none exist, cut the section.
+Tell: "Works with your favorite tools" wall or orbit of famous app icons (Slack, Notion, Figma) with no integrations behind them.
+Why: the generator adds an integration cloud as stock credibility whatever functionality shipped.
+Fix: show live integrations and link each icon to its setup docs. With none built, cut the section.
 
 ## Grids & cards
 
 **25. Everything-in-threes composition** (strong)
-Tell: the whole page beats in triplets — 3 features, 3 steps, 3 testimonials, 3 tiers, 3 values — because grids default to three columns.
-Why: content was generated to fill the layout rather than the layout built for content.
-Fix: let real content set counts — a 2-item or 5-item section is a humanity signal; break one triplet into spotlight-plus-list.
+Tell: the whole page beats in triplets, 3 features, 3 steps, 3 testimonials, 3 tiers, 3 values, because grids default to three columns.
+Why: the model wrote content to fill the layout instead of building the layout for the content.
+Fix: let real content set the counts. A 2-item or 5-item section reads as human, and one triplet can become a spotlight plus a list.
 
 **26. Icon-tile feature card grid** (instant)
-Tell: 3×2 grid of identical rounded cards, each with a small rounded-square icon tile, bold short title, and exactly two lines of gray text.
-Why: the "universal AI feature-card template" — the default AI homepage layout.
-Fix: promote the 1–2 features that matter into full-width sections with real product UI, demote the rest to a compact inline list, vary card size by importance.
+Tell: 3×2 grid of identical rounded cards, each with a small rounded-square icon tile, bold short title, and two lines of gray text.
+Why: this is the universal AI feature-card template, the default AI homepage layout.
+Fix: promote the one or two features that matter into full-width sections with real product UI, drop the rest into a compact inline list, and size cards by importance.
 
 **27. Bento grid with no content logic** (strong)
-Tell: trendy mixed-size bento boxes where cell size has no relationship to content — a double-width cell holding one icon and four words.
-Why: bento became the 2024–25 default and AI applies it as pure decoration.
-Fix: size cells by what they hold (screenshot large, single fact small) or collapse to a simpler grid; every cell must earn its area with real substance.
+Tell: trendy mixed-size bento boxes where cell size bears no relationship to content, such as a double-width cell holding one icon and four words.
+Why: bento became the 2024–25 default and models apply it as decoration.
+Fix: size cells by what they hold, so a screenshot gets a large one and a single fact gets a small one. Collapse to a simpler grid when the cells cannot earn their area.
 
 **28. Metronomic zig-zag feature rows** (strong)
-Tell: three-plus alternating image/text rows at exact 50/50, same gap, same image treatment, flipping left-right-left.
-Why: the "alternating sections" loop is the generator's answer to "more features" — the *perfect* alternation rhythm is the tell.
-Fix: vary the ratio per row, let one row go full-bleed or stack, anchor rows with genuinely different visual types (screenshot, diagram, quote).
+Tell: three or more alternating image/text rows at an even 50/50, same gap, same image treatment, flipping left-right-left.
+Why: the "alternating sections" loop is how the generator answers a request for more features, and the rhythm never breaks.
+Fix: vary the ratio per row, let one row go full-bleed or stack, and anchor rows with different visual types (screenshot, diagram, quote).
 
 **29. Card grid as the only content container** (strong)
-Tell: features, testimonials, blog posts, team, stats, and FAQ all rendered as the same rounded card in the same grid.
-Why: the card is the model's universal container — "those same card layouts."
-Fix: give each content type its native form — quotes as typographic pull-quotes, steps as a flow, stats inline in prose, prose as prose; reserve cards for genuinely card-shaped content.
+Tell: features, testimonials, blog posts, team, stats, and FAQ all render as the same rounded card in the same grid.
+Why: the model treats the card as a universal container, producing "those same card layouts."
+Fix: give each content type its native form, so quotes become typographic pull-quotes, steps become a flow, and stats sit inline in prose. Save cards for content that is card-shaped.
 
 **30. Cards nested inside cards** (strong)
 Tell: rounded bordered containers inside rounded bordered containers, sometimes three levels deep.
-Why: generators wrap everything defensively; nesting creates noise and fake depth.
-Fix: flatten the hierarchy; group with spacing, typography, and dividers instead of nested boxes.
+Why: the generator wraps everything for safety, and the nesting adds noise and fake depth.
+Fix: flatten the hierarchy and group with spacing, typography, and dividers.
 
 **31. Equal-height cards with stretched copy** (strong)
-Tell: every card in a row pixel-identical in height because copy was visibly padded or truncated to match.
-Why: AI writes content to fit the layout instead of fitting layout to content.
-Fix: allow natural card heights (align tops), or restructure so different-length content isn't forced into twins.
+Tell: every card in a row matches its neighbors to the pixel because someone padded or truncated the copy to match.
+Why: the model writes content to fit the layout instead of fitting the layout to the content.
+Fix: let cards take their natural heights and align their tops, or restructure so copy of different lengths never gets forced into twins.
 
 **32. Grids that are always perfectly full** (mild)
-Tell: item counts are always exact multiples of the column count — 6 features, 3 testimonials, 9 logos — in every section.
-Why: the generator invents or trims content to complete rows; reality rarely divides evenly.
-Fix: keep the true count and design for remainders (featured first item, asymmetric last row) rather than padding content.
+Tell: item counts land on multiples of the column count in every section, at 6 features, 3 testimonials, 9 logos.
+Why: the generator invents or trims content to complete rows. A real feature set or customer list comes out to whatever number it comes out to.
+Fix: keep the true count and design for the remainder, with a featured first item or an asymmetric last row.
 
 **33. Filler cards completing the grid** (mild)
-Tell: the last cell is "And much more...", "Your feature here", or a near-duplicate of another card, existing only to close the row.
-Why: pure layout-filling — content generated in service of the grid.
-Fix: delete filler and reflow the grid to the honest count.
+Tell: the last cell reads "And much more...", "Your feature here", or repeats another card, and exists to close the row.
+Why: the model wrote that cell to fill the layout.
+Fix: delete the filler and reflow the grid to the honest count.
 
 ## Containers, spacing & alignment
 
 **34. One max-width container for the entire page** (strong)
-Tell: every section constrained to the same centered `max-w-7xl` box — no full-bleed moments, no breakouts, identical gutters top to bottom.
-Why: generated sections all copy the same wrapper; human layouts vary measure by content type.
-Fix: vary container widths (narrow ~65ch for prose, wide for tables, full-bleed for key visuals); let one element per page break its container.
+Tell: every section sits in the same centered `max-w-7xl` box, with no full-bleed moments, no breakouts, and identical gutters top to bottom.
+Why: the generator copies one wrapper into every section, while designers set the measure by content type.
+Fix: vary container widths, at about 65ch for prose, wider for tables, full-bleed for key visuals. Let one element per page break its container.
 
 **35. Identical vertical padding on every section** (strong)
-Tell: metronomic `py-20`/`py-24` rhythm — the page scrolls as evenly spaced slabs.
-Why: monotonous spacing is a named slop pattern; humans compress related sections and open space around key moments.
-Fix: tighten gaps between tightly coupled sections, expand space only around the 1–2 moments that deserve emphasis.
+Tell: metronomic `py-20`/`py-24` rhythm, so the page scrolls as a stack of slabs at one fixed interval.
+Why: monotonous spacing is a named slop pattern. Designers compress related sections and open space around key moments.
+Fix: tighten the gaps between sections that belong together, and expand space around the one or two moments that deserve emphasis.
 
 **36. Uniform grid gutters everywhere** (mild)
-Tell: the same `gap-8` between logos, feature cards, pricing tiers, and footer columns regardless of content density.
-Why: one spacing token applied globally is averaging, not design.
-Fix: tighten gutters for dense small items (logos, tags), widen for large cards, so grouping reads intentionally.
+Tell: the same `gap-8` between logos, feature cards, pricing tiers, and footer columns whatever the content density.
+Why: applying one spacing token across the page averages the design away.
+Fix: tighten gutters for dense small items such as logos and tags, and widen them for large cards, so the grouping reads as a choice.
 
 **37. Empty-at-scale desktop layout** (strong)
-Tell: at 1440px+ the page is mostly whitespace — small content islands floating in voids.
-Why: responsive-by-default templates grow margins instead of layouts at large viewports; generous whitespace standing in for design decisions.
-Fix: add real wide-viewport variants (extra column, larger visual, side-by-side sections) instead of inflating margins.
+Tell: at 1440px and up the layout thins out to small content islands floating in wide empty voids.
+Why: responsive-by-default templates grow their margins instead of their layouts at large viewports, and the whitespace stands in for a design decision.
+Fix: build real wide-viewport variants by adding a column or setting two sections side by side.
 
 **38. Perfect mirror symmetry throughout** (strong)
-Tell: every section balances exactly around the vertical center axis; nothing is off-grid, offset, or edge-anchored anywhere.
-Why: symmetry is the zero-risk average; total absence of asymmetry reads as machine output.
-Fix: deliberate asymmetry in 2–3 places — offset a section heading, run a 2/3–1/3 split, anchor one visual to the viewport edge.
+Tell: every section balances around the vertical center axis, with nothing offset, off-grid, or anchored to an edge.
+Why: symmetry is the zero-risk average, and a page with no asymmetry anywhere reads as machine output.
+Fix: introduce asymmetry in two or three places. Offset a section heading, run a 2/3–1/3 split, or anchor one visual to the viewport edge.
 
 **39. Center-aligned everything, including body text** (instant)
-Tell: every heading, multi-line paragraph, button group, and list down the whole page is `text-center`.
-Why: generators inherit the centered hero and propagate centering globally; centered multi-line body copy is a classic non-designer/AI tell.
-Fix: left-align body text and most section content; reserve centering for short standalone statements (hero headline, CTA band).
+Tell: every heading, multi-line paragraph, button group, and list down the page carries `text-center`.
+Why: the generator inherits the centered hero and spreads centering across the page, and centered multi-line body copy is a classic non-designer tell.
+Fix: left-align body text and most section content. Save centering for short standalone statements such as a hero headline or a CTA band.
 
 **40. Hermetically sealed section slabs** (strong)
-Tell: sections are strict horizontal bands stacked like plates — no element ever overlaps a boundary, no layering, no z-depth.
-Why: generated markup is a linear list of `<section>` blocks; crafted sites let a visual straddle two sections.
-Fix: pull one visual across a section boundary (negative margin/overlap) — one such moment breaks the slab rhythm.
+Tell: sections stack as strict horizontal bands like plates, with no element crossing a boundary and no layering or z-depth.
+Why: generated markup is a linear list of `<section>` blocks, while crafted sites let a visual straddle two sections.
+Fix: pull one visual across a section boundary with a negative margin. One overlap breaks the slab rhythm.
 
 **41. Alternating white/gray section stripes** (strong)
-Tell: sections separated purely by alternating `bg-white` / `bg-gray-50`, the stripe flip being the only sectioning device.
-Why: the zebra-stripe fallback is how templates fake structure without layout variety.
-Fix: separate sections through spacing and layout change; use background shifts only for true context changes (e.g., pricing), not every other block.
+Tell: sections separated by alternating `bg-white` and `bg-gray-50`, with the stripe flip doing all the sectioning work.
+Why: templates fake structure with a zebra stripe when the layout itself never varies.
+Fix: separate sections through spacing and layout change. Shift the background for a true context change such as pricing, and leave the other blocks alone.
 
 **42. Uniform section heights and scroll cadence** (mild)
-Tell: nearly every section occupies roughly the same viewport height; scrolling feels like flipping identical slides.
-Why: each section was generated independently to the same template depth.
-Fix: vary density — one short punchy band (a single sentence) between deep sections, and one long-form section.
+Tell: most sections occupy about the same viewport height, so scrolling feels like flipping identical slides.
+Why: the generator built each section on its own to the same template depth.
+Fix: vary the density. Drop one short band of a single sentence between two deep sections, and let one section run long.
 
 ## Navigation
 
 **43. Navbar formula: logo left / links center / CTA right** (instant)
-Tell: full-width 64px navbar — logo left, 4–5 links dead center, "Sign in" + filled "Get Started" right — identical across v0, Lovable, and Bolt outputs.
-Why: the highest-probability nav in training data; all three tools produce it for the same prompt.
-Fix: keep usability but break the template — group links beside the logo, add real destinations (Docs, Changelog), vary the CTA treatment. Restructure navigation, never remove it.
+Tell: full-width 64px navbar with the logo left, 4–5 links dead center, and "Sign in" plus a filled "Get Started" right, identical across v0, Lovable, and Bolt outputs.
+Why: this is the highest-probability nav in training data, and all three tools produce it from the same prompt.
+Fix: keep the usability and break the template. Group links beside the logo, point them at real destinations (Docs, Changelog), and vary the CTA treatment. Restructure navigation and never remove it.
 
 **44. Floating detached pill navbar** (strong)
-Tell: rounded-full navbar floating with visible margin below the top edge, drop-shadowed, hovering over content.
-Why: a signature v0-era component that spread through generated sites in 2024–25.
-Fix: dock the nav to the top or square it off; keep the pill only if rounded geometry is a genuine brand motif used elsewhere.
+Tell: rounded-full navbar floating below the top edge with a visible margin, drop-shadowed, hovering over the content.
+Why: this signature v0-era component spread through generated sites in 2024–25.
+Fix: dock the nav to the top or square it off. Keep the pill when rounded geometry is a brand motif you use elsewhere.
 
 **45. Anchor-only navigation IA** (strong)
-Tell: every nav link (Features, Pricing, FAQ) is a `#fragment` scrolling the same single page; no second route exists.
-Why: generators produce one page, so navigation can only point inward — a structural fingerprint of one-shot generation.
-Fix: build the 2–3 real pages the business needs (about, contact/docs, legal) and link them; keep anchors as secondary in-page nav.
+Tell: every nav link (Features, Pricing, FAQ) is a `#fragment` scrolling the same page, and no second route exists.
+Why: the generator produces one page, so the nav can point inward and nowhere else. It leaves a structural fingerprint of one-shot generation.
+Fix: build the two or three real pages the business needs (about, contact/docs, legal) and link them. Keep anchors for secondary in-page nav.
 
 **46. Nav mirrors the section list one-to-one** (mild)
-Tell: nav labels are exactly the homepage sections in scroll order — a table of contents, not an information architecture.
-Why: nav was generated from the same section list as the page body.
-Fix: organize nav by user tasks (Product, Docs, Pricing, Company) rather than scroll positions.
+Tell: nav labels match the homepage sections in scroll order, giving readers a table of contents in the place of an information architecture.
+Why: the generator built the nav from the same section list it used for the page body.
+Fix: organize the nav around user tasks (Product, Docs, Pricing, Company) rather than scroll positions.
 
 **47. Every CTA on the page targets the same URL** (mild)
-Tell: nav button, hero pair, band CTA, and all three pricing buttons point to the identical /signup with identical labels.
-Why: one CTA value propagated through the template; real funnels differentiate intent.
-Fix: differentiate destinations and labels by context — trial vs. demo vs. docs vs. contact-sales on the enterprise tier.
+Tell: nav button, hero pair, band CTA, and all three pricing buttons point at the same /signup under the same label.
+Why: one CTA value propagated through the template, while real funnels separate intent.
+Fix: differentiate destinations and labels by context, with a trial in the hero, a demo or docs mid-page, and contact-sales on the enterprise tier.
 
 ## Footer
 
 **48. Mega-footer formula on a tiny site** (instant)
-Tell: logo + tagline + social icons column plus 3–4 link columns headed Product / Company / Resources / Legal, closing © bar — under a one-page site.
-Why: the enterprise footer scaffold generated wholesale; its scale mismatches the site above it.
-Fix: right-size to reality — a single-row footer with links that actually exist — and let it grow as pages are added.
+Tell: logo, tagline, and social icons in one column beside 3–4 link columns headed Product / Company / Resources / Legal, closing with a © bar, under a one-page site.
+Why: the generator ships the enterprise footer scaffold whole, and its scale does not match the site above it.
+Fix: right-size the footer to what exists, as a single row of links that resolve, and grow it as you add pages.
 
 **49. Dead footer links** (strong)
-Tell: footer links with `href="#"` or pointing to /careers, /blog, /press pages that were never created.
-Why: links were part of the template, not the site — unproofread generation.
-Fix: remove links to nonexistent pages and actually create the legally required ones (privacy, terms) with real content.
+Tell: footer links carrying `href="#"` or pointing at /careers, /blog, and /press pages nobody created.
+Why: those links came with the template, and nobody proofread the output.
+Fix: remove links to pages that do not exist, and write the pages the law requires (privacy, terms) with real content.
 
 **50. Footer/site disproportion** (strong)
 Tell: 30–40 footer links, a language selector, and app-store badges beneath a single-feature waitlist page.
-Why: footer complexity signals company scale; the mismatch reads as costume.
-Fix: prune to the real link set; a small honest footer builds more trust than an aspirational mega-footer.
+Why: footer complexity signals company scale, and readers notice when the size claim outruns the site.
+Fix: prune the footer down to the links you have and the pages that resolve.
 
 **51. Unwired newsletter block** (mild)
-Tell: "Subscribe to our newsletter" input + button in the footer that posts nowhere or has no provider attached.
-Why: the newsletter slot ships with the footer template whether or not a newsletter exists.
-Fix: connect it to a real list with a real cadence, or remove the block.
+Tell: "Subscribe to our newsletter" input and button in the footer that post nowhere and have no provider behind them.
+Why: the newsletter slot arrives with the footer template whether or not a newsletter exists.
+Fix: connect it to a real list on a real cadence, or remove the block.
 
 ## Information architecture & pages
 
 **52. Single-landing-page-only information architecture** (strong)
-Tell: the entire "company" is one route — no about, contact, blog, docs, changelog, or GitHub link anywhere.
-Why: sites lacking an about page with names, dated posts, and a changelog lack the structural evidence of a real project.
-Fix: add a minimal but genuine about page (names, faces, why), a contact page with real channels, and legal pages — three small real pages beat ten generated sections.
+Tell: the whole "company" is one route, with no about, contact, blog, docs, changelog, or GitHub link anywhere.
+Why: an about page with names, dated posts, and a changelog carries the structural evidence of a real project, and this site has none of it.
+Fix: add a small genuine about page (names, faces, why), a contact page with real channels, and legal pages that say something.
 
 **53. Thin centered about page** (strong)
-Tell: /about is one centered mission paragraph in a narrow column — no names, photos, dates, or location.
-Why: the model can generate mission-speak but not biography; the structural emptiness is visible in seconds.
-Fix: add concrete facts — founder names and photos, founding date, city, the actual origin story. Three sentences of specifics transforms it.
+Tell: /about is one centered mission paragraph in a narrow column, with no names, photos, dates, or location.
+Why: the model can write mission-speak and cannot supply a biography, and the structural emptiness shows in seconds.
+Fix: add concrete facts, meaning founder names and photos, the founding date, the city, and how the thing started.
 
 **54. Contact page that is only a form** (strong)
-Tell: /contact is exactly a name/email/message form — no email address, phone, physical address, or response-time expectation.
-Why: the contact form is a component; contact *information* is a business reality the generator doesn't have.
-Fix: publish a real monitored email address (and any other real channel) alongside the form, plus expected response time.
+Tell: /contact holds a name/email/message form and nothing else, with no email address, phone, physical address, or response-time expectation.
+Why: the contact form is a component, while contact *information* is a business reality the generator does not have.
+Fix: publish a monitored email address beside the form, along with any other real channel and the response time you expect to hit.
 
 **55. Placeholder blog section** (strong)
-Tell: "From our blog" grid or /blog with three template cards — generic covers, "Blog post title here", or undated generic posts.
-Why: a blog scaffold without dated content is negative proof.
-Fix: remove the blog until 2–3 real dated posts exist; never ship placeholder cards.
+Tell: "From our blog" grid or /blog holding three template cards with generic covers, "Blog post title here", or undated filler posts.
+Why: a blog scaffold with no dated content behind it counts as evidence against the site.
+Fix: remove the blog until two or three real dated posts exist. Never ship placeholder cards.
 
 **56. Zero temporal texture** (mild)
-Tell: every page pixel-consistent and same-day new — no dates, no changelog, no old URLs, no slightly inconsistent legacy page anywhere.
-Why: real sites accrete inconsistency over time; simultaneous generation has no history.
-Fix: add a dated changelog or release notes and date all published content — visible history is unfakeable structure.
+Tell: every page is consistent to the pixel and same-day new, with no dates, no changelog, no old URLs, and no odd legacy page that nobody updated.
+Why: real sites accrete inconsistency over the years, and a site generated in one pass has no history to show.
+Fix: add a dated changelog or release notes, and put a date on everything you publish.
 
 **57. Structure outrunning content** (strong)
-Tell: full 10-section landing architecture (logos, stats, testimonials, FAQ, blog) wrapping a product with one feature and no users — sections exist as labeled shells with near-zero information.
-Why: the template's ambition exposes the content's absence — "they all looked the same and none had the information you were looking for."
-Fix: cut the page to only sections with real substance; a short specific page outperforms a long empty one and stops pattern-matching to slop.
+Tell: a full 10-section landing architecture (logos, stats, testimonials, FAQ, blog) wraps a product with one feature and no users, and the sections stand as labeled shells holding almost no information.
+Why: the more the template promises, the more the missing content shows: "they all looked the same and none had the information you were looking for."
+Fix: cut the page down to the sections with real substance behind them, and let it be short.
 
 ## Mobile
 
 **58. Source-order single-column mobile collapse** (strong)
-Tell: on mobile every grid stacks in DOM order — zig-zag rows become image/text/image/text monotony, the logo bar becomes a logo tower, nothing reprioritized.
-Why: `grid-cols-1 md:grid-cols-3` is responsive-by-default, not designed-for-mobile.
-Fix: adjust per breakpoint — consistent text-before-image order, collapse the logo strip to one row, convert steps to a vertical timeline, hide decorative duplicates.
+Tell: on mobile every grid stacks in DOM order, so zig-zag rows become image/text/image/text monotony and the logo bar becomes a logo tower, with nothing reprioritized.
+Why: `grid-cols-1 md:grid-cols-3` is responsive by default, and nobody designed for the small screen.
+Fix: adjust per breakpoint. Keep text before image throughout, collapse the logo strip to one row, turn steps into a vertical timeline, and hide decorative duplicates.
 
 **59. Desktop spacing preserved on mobile** (mild)
-Tell: `py-24` section gaps and giant hero margins retained at 375px, making mobile mostly empty scrolling between islands.
-Why: the uniform spacing scale was never revisited per breakpoint.
-Fix: halve section padding at small breakpoints and tighten intra-section gaps so density matches the device.
+Tell: `py-24` section gaps and giant hero margins survive at 375px, so the mobile page scrolls through long empty stretches between content islands.
+Why: nobody revisited the uniform spacing scale per breakpoint.
+Fix: halve the section padding at small breakpoints and tighten the gaps inside sections, so the density matches the device.
 
 **60. Full-screen hamburger overlay for five links** (mild)
-Tell: mobile hamburger opens a 100vh overlay with five giant centered anchor links — for a one-page site.
-Why: the overlay menu is the template's mobile nav regardless of nav size.
-Fix: compact dropdown sized to the actual link count, or surface the 1–2 links that matter inline next to the logo.
+Tell: the mobile hamburger opens a 100vh overlay with five giant centered anchor links, on a one-page site.
+Why: the template ships this overlay as its mobile nav whatever the nav size.
+Fix: use a compact dropdown sized to the link count, or surface the one or two links that matter beside the logo.
 
 **61. Mobile hero pushing every CTA below the fold** (mild)
-Tell: stacked badge + headline + subhead + two full-width buttons + screenshot means the first mobile screen contains only a headline fragment.
-Why: the desktop-centered stack was collapsed without re-editing for the small viewport.
-Fix: on mobile drop the badge, shorten the subhead, keep one CTA, let the screenshot follow — get action above the fold.
+Tell: stacked badge, headline, subhead, two full-width buttons, and a screenshot leave the first mobile screen holding a fragment of the headline.
+Why: the desktop centered stack collapsed without anyone re-editing it for the small viewport.
+Fix: on mobile, drop the badge, shorten the subhead, keep one CTA, and let the screenshot follow, so an action lands above the fold.
 
 ## App shells
 
 **62. Dashboard KPI-shell template (vibe-coded apps)** (strong)
-Tell: app opens on the universal admin shell — sidebar left, four equal stat cards across the top, a line-chart card, a table card below.
-Why: the default dashboard scaffold every generator produces before knowing what the app does.
-Fix: design the opening screen around the user's actual first task; size cards by importance; delete KPI cards with no real data behind them.
+Tell: the app opens on the universal admin shell, with a sidebar left, four equal stat cards across the top, a line-chart card, and a table card below.
+Why: every generator produces this dashboard scaffold before it knows what the app does.
+Fix: design the opening screen around the user's first task, size the cards by importance, and delete KPI cards with no data behind them.
 
 **63. Lone waitlist card page** (mild)
-Tell: pre-launch site is a single centered card — headline, one sentence, email input, "Join the waitlist" — floating in a decorated void.
-Why: the canonical one-prompt output for "make me a waitlist page."
-Fix: keep the form but add substance around it — what the product does, who it's for, one real visual or founder note.
+Tell: the pre-launch site is a single centered card holding a headline, one sentence, an email input, and "Join the waitlist", floating in a decorated void.
+Why: this is the canonical one-prompt output for "make me a waitlist page."
+Fix: keep the form and add substance around it, covering what the product does, who it serves, and one real visual or founder note.
 
-## VOCAB — greppable/measurable signals for this file
+## VOCAB: greppable/measurable signals for this file
 
 - Class patterns: `max-w-7xl mx-auto px-4 sm:px-6 lg:px-8` · `container mx-auto` · repeated `py-16|py-20|py-24|py-32` on every section · `min-h-screen flex flex-col items-center justify-center` · page-wide `text-center` · `grid grid-cols-1 md:grid-cols-3 gap-8` · `grid-cols-2 lg:grid-cols-4` · `inline-flex items-center rounded-full border px-3 py-1 text-sm` (pill badge) · `-space-x-2|-space-x-3` (avatar cluster) · `bg-gray-50`/`bg-muted` stripes · `h-16` + `flex items-center justify-between` (navbar) · `animate-marquee` · `aspect-video rounded-xl shadow-2xl` (hero shot) · `sticky top-0 z-50`
 - Anchors as the whole nav: `#features` `#how-it-works` `#testimonials` `#pricing` `#faq` `#contact`
