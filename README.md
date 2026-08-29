@@ -94,12 +94,6 @@ The first two screenshots look almost the same, and that is the guarantee workin
 > **After:** Figma says `#6366F1`. Your CSS says `#635BFF`.
 > FlowSync opens a pull request the moment they drift.
 
-### A mistake worth showing
-
-The first cleaned version chased specificity into verbosity: an eleven-word headline over three lines, a two-sentence subhead, a paragraph per card. It came to **42 words against the slop original's 41**, so it removed nothing and read denser. Every claim in it was true and it was still worse.
-
-`clean-pass.md` now carries the rule that fixed it: **specific does not mean longer.** Headline 8 words or fewer over two lines, subhead one sentence, blurbs under 15 words, and count the words before and after. Reach for a concrete noun instead of a longer sentence, which is how a hero states the whole problem in seven tokens.
-
 [`examples/README.md`](examples/README.md) lists every change by tier, including what tier 5 deliberately left alone. Source: [`hero-before.html`](examples/hero-before.html) · [`hero-tier2.html`](examples/hero-tier2.html) · [`hero-clean.html`](examples/hero-clean.html).
 
 ## What REDESIGN does
