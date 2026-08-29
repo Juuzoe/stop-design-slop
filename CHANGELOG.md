@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.2.1, 2026-08-29
+
+- **Screenshots.** `examples/hero-before.png` and `hero-clean.png`, captured at 2x from headless Chrome, now sit at the top of the README comparison and in `examples/README.md`. GitHub cannot preview the HTML files, so the images carry the demonstration and the source stays alongside them.
+- **Shorter comparison.** The 17-row before/after table became two quoted blocks plus one line of everything else. The slop specimens in the "before" quote stay verbatim, since they are the evidence.
+- **Prose pass.** Ran the repo's own copy rules over the text added in v2.1 and v2.2. No em dashes, banned adverbs or negation pivots in our own writing; specimens in `copy-content.md` and the README comparison stay untouched.
+
 ## v2.2.0, 2026-08-29
 
 Removal now runs in five tiers instead of one pass, so you can pick how far it goes.

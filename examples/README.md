@@ -1,6 +1,10 @@
 # Worked example: the same hero, before and after
 
-Two self-contained HTML files. Open both in a browser to compare.
+| Before | After tiers 1 to 4 |
+|---|---|
+| <img src="hero-before.png" alt="Slop hero with pulsing sparkle badge, gradient keyword, glow orbs and fabricated social proof"> | <img src="hero-clean.png" alt="Cleaned hero in the same visual language with a specific headline and a named call to action"> |
+
+Two self-contained HTML files, plus the screenshots above.
 
 - **`hero-before.html`** — a hero carrying about 25 catalogued tells, of the kind a builder emits from a one-line prompt.
 - **`hero-clean.html`** — the same page after CLEAN tiers 1 to 4.

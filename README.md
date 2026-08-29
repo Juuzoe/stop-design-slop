@@ -78,30 +78,27 @@ Per-tell breakdown in [clean-pass.md](references/clean-pass.md).
 
 ## Before and after
 
-[`examples/hero-before.html`](examples/hero-before.html) is a hero packed with about 25 catalogued tells. [`examples/hero-clean.html`](examples/hero-clean.html) is the same page after tiers 1 to 4. Open both locally to compare.
+| Before, ~25 catalogued tells | After tiers 1 to 4 |
+|---|---|
+| <img src="examples/hero-before.png" alt="Slop hero: pulsing sparkle badge, gradient keyword headline, purple glow orbs, stock avatars claiming 10,000 developers, Lovable badge in the corner"> | <img src="examples/hero-clean.png" alt="Cleaned hero: same Inter, same near-black ground, same indigo accent, with a specific headline and a named call to action"> |
 
-**The typeface, background, accent hue, border radius and layout are unchanged between them.** Inter, `#0a0a0a`, indigo, 12px radius, centered column. Every difference is an artifact removed, a falsehood corrected, decoration deleted, or craft added. (The one qualifier: button fills went from the stock `135deg` gradient to solid indigo, which is tier 3 flattening decoration rather than a palette change.)
+**Same typeface, same ground, same accent hue, same radii, same layout.** Inter, `#0a0a0a`, indigo, 12px radius, centered column. Every difference is an artifact removed, a falsehood corrected, decoration deleted, or craft added.
 
-| | Before | After |
-|---|---|---|
-| Tab title | `Create Next App` | `FlowSync — design tokens that stay in sync with your code` |
-| Corner | "Edit with Lovable" badge | removed |
-| Hero badge | `✨ Announcing our Series A 🎉`, pulsing | removed |
-| Headline | `Supercharge Your **Workflow**`, gradient keyword | `Your Figma variables and your CSS stop agreeing on day three.` |
-| Subhead | "all-in-one platform... teams of all sizes... whether you're a solo founder or a Fortune 500 team" | "watches both and opens a pull request the moment they drift, with the diff attached" |
-| Buttons | `Get Started` + `Learn More` | `Connect a Figma file` + `Watch the 90-second walkthrough` |
-| Social proof | 5 stock avatars, ★★★★★, "Loved by 10,000+ developers" | removed (none of it was true) |
-| Logo bar | Acme Corp, TechFlow, Globex, Initech | removed |
-| Stats | 10,000+ · 99.9% · 4.9/5 · 24/7 | removed |
-| Feature cards | ⚡ Blazing Fast · 🔒 Secure by Default · 📊 Powerful Analytics | Drift detection · Pull requests, not dashboards · Contrast checks on merge, each with a real mechanism |
-| Background | two blurred purple glow orbs | flat `#0a0a0a` |
-| Card hover | `transform: scale(1.05)` | border-color shift |
-| Body text | `#71717a` on `#0a0a0a` (fails 4.5:1) | `#a1a1aa` (passes) |
-| Focus | none | 2px ring in the existing indigo |
-| Footer | lorem ipsum, `hello@example.com`, © 2024 | real email, a stated limitation, `v0.9.2 · updated 12 Aug 2026` |
-| Links | `href="#"` throughout | real routes |
+The clearest single change is the writing:
 
-The after page is still recognizably the same product in the same visual language. It just no longer contains any evidence that a machine assembled it. Closing the remaining gap, which is that the typeface and palette are still framework defaults, is what tier 5 and a redesign are for.
+> **Before:** Supercharge Your **Workflow**
+> Our all-in-one platform helps teams of all sizes streamline their workflow, boost productivity, and achieve more. Whether you're a solo founder or a Fortune 500 team, FlowSync scales with you.
+> `[Get Started]` `[Learn More]` · ★★★★★ Loved by 10,000+ developers
+
+> **After:** Your Figma variables and your CSS stop agreeing on day three.
+> FlowSync watches both and opens a pull request the moment they drift, with the diff attached. Most teams wire it up in about ten minutes.
+> `[Connect a Figma file]` · Watch the 90-second walkthrough
+
+Also gone: the Lovable badge, the `Create Next App` tab title, the Acme Corp logo bar, the invented stat row, `href="#"` links, lorem ipsum, and body text that failed 4.5:1. Added: a focus ring, tabular figures, balanced headings, a real updated date.
+
+Two qualifiers, so the claim stays honest. Button fills went from the stock `135deg` gradient to solid indigo, which is tier 3 flattening decoration rather than a palette decision. And the after page still runs Inter on a default indigo, because that is tier 5. Closing that gap is what a redesign is for.
+
+[`examples/README.md`](examples/README.md) lists every change by tier, including what tier 5 deliberately left alone. Source: [`hero-before.html`](examples/hero-before.html) · [`hero-clean.html`](examples/hero-clean.html).
 
 ## What REDESIGN does
 
