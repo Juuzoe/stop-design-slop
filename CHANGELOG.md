@@ -1,5 +1,29 @@
 # Changelog
 
+## v2.0.0, 2026-08-29
+
+A user ran v1 on their project and the result looked more AI-generated than the original. They were right, and the diagnosis reshaped the skill: removing tells produces bland design, and bland reads as machine-made. The catalog is intact, but it no longer drives the fix.
+
+**Why v1 failed** (documented with sources in `references/method.md`):
+
+- **Coverage.** 284 rules constrain 284 decisions out of the thousands a page makes. Every unconstrained decision reverts to the model default, so a subtractive audit can never win.
+- **Negation promotes the runner-up.** Banning the mode promotes second place, and everyone running the list lands on the same second choice. The escape hatch has a spec sheet.
+- **Patchwork.** Thirty independent edits produce thirty unrelated decisions, and incoherence reads worse than consistent genericness.
+- **The metric was wrong.** A tells-only score has its optimum at a flat gray page. Zero tells, zero decisions.
+- Two more mechanisms: unverifiable rules cause over-correction rather than compliance, and long prohibition documents measurably collapse output diversity.
+
+**New workflow:** `DIAGNOSE → BRIEF → SPEC → REBUILD → LINT → JUDGE`. The tells now appear as diagnosis and as lint assertions, never as repair instructions.
+
+**New files:**
+
+- `references/method.md`: the failure analysis, the corrected model, the `DESIGN.md` template, recovery steps for a damaged page, dual scoring, and the mandatory positives.
+- `references/art-direction.md`: the studio process from perception brief through attribute disambiguation, competitive audit, divergence techniques and three-tier token propagation.
+- `references/directions.md`: 13 fully-specified art directions with real typefaces and example sites, a three-filter selection procedure, an eight-attribute map, and a free type shelf that excludes the overused names.
+- `references/derivation.md`: executable math for hue sourcing, OKLCH ramps, APCA and WCAG contrast solving, typeface selection and pairing gates, scale and spacing derivation, radius and layered shadow construction, with a computed end-to-end worked example.
+- `references/craft-details.md`: 64 implementable craft details (C1–C64) with CSS, ranked by signal per hour.
+
+**Also:** a second metric, the Commitment Score, since low slop with low commitment is the bland failure this release exists to prevent. Ship gate now requires both.
+
 ## v1.2.0, 2026-08-28
 
 Every word in the repo now passes the standard the repo enforces. The catalog keeps all 284 tells, their numbers, severities and technical strings; what changed is the prose around them.

@@ -1,129 +1,158 @@
 ---
 name: stop-design-slop
-description: Audit and remove "AI slop" from websites/webapps so the first glance never says "AI made this", and prevent it when building UI from scratch. Use when the user says a site looks AI-generated, generic, template-y, or "like every other SaaS page"; asks to de-slop, de-AI, humanize, or "make it not look AI"; wants an AI-slop audit or slop score; is redesigning an existing site; or is starting a new site/landing page/app and wants it slop-proof from the first commit. Covers 284 catalogued tells across layout, color, typography, copy, imagery, motion, and code/meta, each with a surgical fix that keeps the site's function, content, and conversion intact.
+description: Make a website stop looking AI-generated, by committing to a specific art direction and rebuilding from tokens rather than by deleting tells. Use when the user says a site looks AI-generated, generic, template-y, or "like every other SaaS page"; asks to de-slop, de-AI, humanize, or "make it not look AI"; wants an AI-slop audit or slop score; is redesigning an existing site; or is starting a new site, landing page or app and wants it distinctive from the first commit. Pairs a 284-tell diagnostic catalog with 13 fully-specified art directions, executable color and type derivation math, and 64 craft details, producing a filled DESIGN.md spec for the project.
 ---
 
 # stop-design-slop
 
-**Prime directive:** a stranger who glances at the site for 5 seconds should not think "AI made this." That is the success metric. You reach it by removing tells while keeping the site whole: every fix swaps slop for something specific, and nothing functional or conversion-critical leaves the page.
+## Read this before anything else
 
-**Second directive:** removing slop does not by itself produce design. Strip a site down and add nothing, and you get quieter slop. Every engagement ends with the Identity Injection pass.
+**Removing tells does not produce good design. It produces bland design, which reads as AI-generated too.**
 
-## Modes, picked by how you were invoked
+Earlier versions of this skill prescribed fixing tells one at a time. That approach makes pages worse, for reasons documented in `references/method.md`:
+
+- A 284-item ban list constrains 284 decisions out of the thousands a page makes. Every unconstrained decision reverts to the model's default.
+- Banning the most common option promotes the second most common one. Everyone lands on the same runner-up, so anti-slop output ends up more uniform than the slop it replaced.
+- Thirty tells fixed as thirty independent edits produce thirty unrelated decisions. The generic original was at least coherent, and incoherence reads as broken.
+- Optimizing for the fewest tells converges on a flat gray page with a system font. Zero tells, zero decisions.
+
+**So the tells never drive the fix.** They appear twice, as diagnosis before the work and as lint assertions after it. Between those two points you commit to a direction and rebuild from the token layer.
+
+If you are here to repair a page a previous de-slop pass damaged, read the recovery section of `references/method.md` first. Reverting usually beats repairing forward.
+
+## Modes
 
 | Invocation | Mode |
 |---|---|
-| `/stop-design-slop <url>` | **AUDIT** a live site (browser capture, catalog sweep, fix plan) |
-| `/stop-design-slop` inside a project with UI code | **AUDIT** the codebase (code sweep, plus a render if a dev server exists) |
-| `/stop-design-slop build`, or invoked while creating new UI | **PREVENT**: apply the catalog as negative constraints before writing code |
-| `quick` anywhere in args | Sweep the 63 `instant` tells only, for a fast first-impression fix |
-| `copy` / `visual` / `code` in args | Scope the sweep to those catalog files |
-| `audit-only` / `report` in args | Produce the scored report and plan. Change no files. |
+| `/stop-design-slop <url>` | **AUDIT + REBUILD** a live site |
+| `/stop-design-slop` in a project with UI code | **AUDIT + REBUILD** the codebase |
+| `/stop-design-slop build`, or invoked while creating new UI | **PREVENT**: write the spec before any code exists |
+| `audit-only` / `report` in args | Diagnose and score, produce the spec and plan, change no files |
+| `quick` in args | The 63 `instant` tells only, for a fast diagnosis |
+| `copy` / `visual` / `code` in args | Scope the diagnosis to those catalogs |
 
-When args are ambiguous, default by what exists: existing UI goes to AUDIT, a blank slate goes to PREVENT. Never ask which mode when you can infer it.
+Infer the mode rather than asking. Existing UI goes to AUDIT, a blank slate goes to PREVENT.
 
-## The catalog
+## Files
 
-The tells live in `references/`, numbered in one continuous sequence so you can cite a finding as "#N". Read the files your scope covers. A full audit reads all of them.
+Read `method.md` first, always. Then read what your phase needs.
 
-| File | Points | Domain |
-|---|---|---|
-| `references/structure-layout.md` | 1–63 | Page architecture, hero formulas, section order, grids, spacing, nav, footer, IA, mobile, app shells |
-| `references/color-effects.md` | 64–93 | Palettes, gradients, glow, glass, backgrounds, borders, radius, shadows, theme defaults |
-| `references/typography.md` | 94–121 | Font choices, pairing, hierarchy, headline styling, labels, casing, micro-typography |
-| `references/imagery-icons.md` | 122–153 | AI-image artifacts, cliché subjects, stock illustration, product imagery, icons, logos |
-| `references/motion-interaction.md` | 154–183 | Scroll reveals, scroll behavior, hover and cursor effects, ambient loops, motion systems |
-| `references/copy-content.md` | 184–251 | Headline formulas, AI constructions, word blacklist, CTAs, trust claims, testimonials, microcopy |
-| `references/code-meta-tells.md` | 252–284 | Builder watermarks, framework leftovers, head/SEO, dead wiring, bundle smells, a11y and perf |
-| `references/deslop-playbook.md` | | Fix method, Identity Injection, the tests, PREVENT constraints, report template |
-
-That comes to **284 tells** (63 instant, 154 strong, 67 mild), deduplicated across domains. Cross-references such as "(Card layout: #26)" connect the angles on a single pattern instead of repeating it.
-
-Each entry reads: **#N. Name** (severity), the tell, why it signals AI, then **Fix**. Severities: **instant** (visible in the first 5 seconds and strongly AI-coded), **strong** (obvious during one scroll), **mild** (counts only in aggregate).
-
-## AUDIT workflow
-
-### 1. Capture
-Use whatever capture tools the host agent provides. See **Agent compatibility** below. The catalog stays the same either way.
-- **Live URL:** load the page, screenshot it full-height at desktop width, then screenshot again at roughly 375px. Extract the page text for the copy sweep. Check the tab title and favicon. Open the pricing and about pages if they exist.
-- **No browser available:** fetch the raw HTML and CSS, audit those, then ask the user for two screenshots. State plainly which visual tells you could not check without rendering.
-- **Codebase:** find the UI source, read the entry pages, global CSS or theme config, and layout components. Run the grep sweep, since each catalog file ends with a `VOCAB` block of greppable strings. If a dev server exists, run it and capture the rendered page. Judge the rendered site whenever you can, because code alone hides visual tells.
-- Note what the site is for and who it serves. Your fixes have to fit this brand rather than a generic taste.
-
-### 2. Detect
-Walk the catalog against the capture. Record each hit as `#N, where it appears, severity`. Record what already works too: distinctive choices, real content, good moves. That list becomes the do-not-touch list.
-
-### 3. Score
-```
-Slop Score = 3×(instant hits) + 2×(strong hits) + 1×(mild hits)
-```
-| Score | Verdict |
+| File | Purpose |
 |---|---|
-| 0–8 | Clean. The first glance reads human. Polish only. |
-| 9–20 | Pattern-y. A designer would side-eye it; civilians might not. |
-| 21–45 | Recognizably AI. The first-glance test fails. |
-| 46+ | Full slop. The site is the template. |
+| `references/method.md` | Why removal fails, the corrected model, the workflow, the `DESIGN.md` template, dual scoring |
+| `references/art-direction.md` | The process that produces a commitment: brief, attribute disambiguation, competitive audit, divergence, propagation |
+| `references/directions.md` | 13 fully-specified directions with real typefaces and example sites, plus the attribute map and a free type shelf |
+| `references/derivation.md` | Executable math: hue sourcing, OKLCH ramps, APCA contrast solving, type selection and pairing, scale and spacing, radius and shadow systems |
+| `references/craft-details.md` | 64 implementable details (C1–C64) that signal a human hand |
+| `references/structure-layout.md` | Tells #1–63: architecture, heroes, sections, grids, spacing, nav, footer, IA, mobile |
+| `references/color-effects.md` | Tells #64–93: palettes, gradients, glow, glass, borders, radius, shadows |
+| `references/typography.md` | Tells #94–121: font choice, pairing, hierarchy, headline styling, casing |
+| `references/imagery-icons.md` | Tells #122–153: AI-image artifacts, stock illustration, icons, logos |
+| `references/motion-interaction.md` | Tells #154–183: scroll reveals, hover effects, ambient loops, motion systems |
+| `references/copy-content.md` | Tells #184–251: headline formulas, word blacklist, trust claims, testimonials |
+| `references/code-meta-tells.md` | Tells #252–284: builder watermarks, framework leftovers, dead wiring, a11y |
 
-Run the **5-second test** on its own: describe your literal first impression of the desktop screenshot in one sentence, before any analysis. If that sentence contains "generic", "SaaS template", or the name of a builder tool, say so. It becomes the headline of the report.
+284 tells (63 instant, 154 strong, 67 mild) and 64 craft details.
 
-### 4. Report
-Follow the template in `references/deslop-playbook.md`. Group findings by category, cite each by #N, and pair each with its fix. Lead with the 5-second verdict and the five highest-impact tells.
+## Workflow
 
-### 5. Triage
-Fix in impact order rather than catalog order:
-1. **Pass 1, instant tells on the first viewport**: hero, headline, palette, type, badge, imagery. This alone usually flips the first impression.
-2. **Pass 2, strong tells through the scroll**: sections, components, testimonials, footer.
-3. **Pass 3, mild tells and the copy sweep**: microcopy, casing, motion, meta.
-4. **Pass 4, Identity Injection**: add one distinctive type voice, one ownable color decision, one signature layout move, at most one signature motion, and real content wherever you removed fake content.
+```
+DIAGNOSE  →  BRIEF  →  SPEC  →  REBUILD  →  LINT  →  JUDGE
+```
 
-In `audit-only` mode, stop after the report and plan.
+### 1. DIAGNOSE
 
-### 6. Verify
-- Re-screenshot desktop and mobile, rerun the 5-second test, and re-score. You want zero `instant` hits, a score inside 0–8, and a first-impression sentence that no longer mentions AI or templates.
-- Regression gates. The de-slop failed if any of these got worse: text contrast (keep body at 4.5:1 or better, large text at 3:1), keyboard focus visibility, page weight, the presence of nav, pricing, CTA and contact functionality, or mobile layout integrity.
-- List what you changed and what you kept on purpose.
+Capture the current state, then walk the tell catalogs against it. Record each hit as `#N, where it appears, severity`, and record what already works as a do-not-touch list.
 
-## PREVENT workflow (building from scratch)
+Capture with whatever the host provides. For a live URL: screenshot full-height at desktop width and again at ~375px, extract page text, check the tab title and favicon. With no browser: fetch the HTML and CSS, audit those, ask the user for screenshots, and state which visual tells you could not verify. For a codebase: read entry pages, global CSS and theme config, layout components, then run the VOCAB grep sweep at the end of each catalog. Judge the rendered page whenever you can.
 
-1. **Before the first line of UI code**, read `references/deslop-playbook.md` plus the catalog files covering what you are about to build. Write a five-line **design commitment** into the plan: the typefaces and why, how you derived the palette from the brand or subject rather than defaulting to indigo-on-slate, one signature layout move, one signature motion or none, and where real content comes from.
-2. Treat every `instant` and `strong` entry as a **banned default**. When you catch yourself reaching for one (centered hero, pill badge, gradient keyword, three feature cards), stop and start from that entry's Fix instead.
-3. Placeholder content is a build-breaking bug rather than a TODO. Ship no lorem ipsum, no fake testimonials, stats or logos, no `#` links, no example.com addresses, even in temporary commits. When real content does not exist yet, design the section to work honestly without it, or cut the section until it does.
-4. **Checkpoint audits:** run a `quick` audit on the rendered page once the first viewport is built, and again before you call it done. The first viewport has to score zero on instant tells.
-5. Ship gate: run the full audit, steps 2 through 6 above, on the finished build.
+Run the **5-second test** explicitly: describe your first impression of the desktop screenshot in one sentence, before analysis. If it contains "generic", "template" or a tool name, that sentence is the headline of the report.
+
+Stop here in `audit-only` mode after producing the spec and plan.
+
+### 2. BRIEF
+
+Run `art-direction.md`. It ends with a one-sentence concept, a named audience, three to five disambiguated attributes, an exclusion list, and a chosen direction from `directions.md`.
+
+**Refuse to proceed without a concept and an audience.** Art direction is what makes a thousand small choices agree. With no concept, they agree by defaulting. If the user will not supply one, generate three candidate directions and force a pick.
+
+Select the direction through the three filters in `directions.md`: your attributes, what competitors already occupy, and what your content can actually support. The third filter kills the most candidates, and ignoring it produces an empty template.
+
+### 3. SPEC
+
+Write `DESIGN.md` into the project using the template in `method.md`. Twenty to fifty lines, exact values, no adjectives. Derive the values that must be project-specific using `derivation.md`: source the hue from the brand's own material, solve contrast rather than eyeballing it, pick type against the measured gates.
+
+**An empty line in the spec is a decision handed back to the model.** Fill every one.
+
+The spec includes five named commitments: the focal point, the one tension move, a signature asset appearing in three roles, the decision competitors would not make, and one deliberate exception to your own system.
+
+This file is a deliverable. The user edits it, and it governs every future change.
+
+### 4. REBUILD
+
+Token layer first, as one atomic change, then components, then content, then craft.
+
+**Make defaults unreachable rather than discouraged.** In Tailwind, define `colors:` rather than `extend:` so the framework palette cannot be referenced. Renaming `indigo` to `primary` changes nothing perceptual.
+
+Order: type tokens → color tokens → geometry tokens → space and scale → motion tokens → components → content and copy → craft details from `craft-details.md`.
+
+Never scatter edits across components before the tokens agree. That is the patchwork failure.
+
+### 5. LINT
+
+Machine-checkable assertions, run in CI. Warnings first, then errors.
+
+Hex values outside the allowlist. Banned utility classes. Off-scale spacing. Banned copy openers. Computed contrast below 4.5:1. Raw elements where a system component exists.
+
+Rules must be checkable by the agent against its own output. An instruction the agent cannot verify produces over-correction rather than compliance, so anything requiring "look at the render" belongs in the JUDGE phase instead.
+
+### 6. JUDGE
+
+Write a rubric for this brief describing what good looks like, then evaluate the rendered page against it. A checklist cannot govern generation; critique defines quality without demanding exactness, and it evaluates the render rather than the source.
+
+Re-screenshot desktop and mobile, rerun the 5-second test, and score both axes.
+
+## Scoring
+
+```
+Slop Score       = 3×instant + 2×strong + 1×mild        (lower is better)
+Commitment Score = filled, propagated, nameable decisions (higher is better)
+```
+
+| Slop | Commitment | Verdict |
+|---|---|---|
+| high | low | Generic template. The starting point. |
+| high | high | Loud but derivative. Fix the tells. |
+| **low** | **low** | **Bland. The failure this skill exists to prevent.** |
+| low | high | Ship it. |
+
+Ship gate needs both: Slop Score 0 to 8, Commitment Score 5 or more, every mandatory positive from `method.md` present, and no regression in contrast, focus visibility, page weight, functionality or mobile layout.
 
 ## Guardrails
 
-- **Every removal gets a replacement.** Before you touch a slop element, name the job it does (orient, persuade, prove, convert) and keep that job covered. A fake logo bar becomes one real proof point or honest silence. A pricing table stays, because "template-y" is not a reason to delete pricing. Conventions like nav bars, pricing grids, FAQs and footers are what users rely on to navigate; the slop sits in their styling and content, which is what you fix.
-- **One tell, one fix.** Keep diffs surgical. Leave alone anything absent from the findings list.
-- **Accessibility outranks aesthetics.** No fix may reduce contrast, remove focus states, shrink tap targets, or ignore `prefers-reduced-motion`. When a slop fix collides with accessibility, accessibility wins.
-- **Restraint over reinvention.** Anti-slop is a direction, not a style. Swinging to brutalism because "AI can't do that" produces a different template and usually breaks the brand. Aim at what suits this site, spend the weirdness budget in one or two places, and keep the rest calm.
-- **The brand stays the brand.** When that purple gradient is the company's actual brand color, the fix is to use it with more intention. Real brand assets are not slop.
-- **Keep receipts.** List the kept-as-is items and your reasons, so a reviewer can see the restraint was deliberate.
-
-## Identity Injection
-
-De-slopping subtracts. This pass adds what makes the site belong to someone. Full principles sit in `references/deslop-playbook.md`. The minimum bar:
-
-1. **Type with a point of view.** Choose at least the display face for this brand, and state the reason.
-2. **An ownable color decision.** Derive it from the product, subject or brand, apply it consistently, and give it one place where it does something memorable.
-3. **One signature layout move.** Break the symmetric center-stacked default once, on purpose.
-4. **At most one signature motion**, doing a job such as revealing, confirming or guiding. Everything else stays calm.
-5. **Real content everywhere.** Source every number, attribute every quote, and choose every image. Specificity is the strongest anti-AI signal you have.
+- **Every removal gets a replacement.** Name the job an element does (orient, persuade, prove, convert) and keep that job covered.
+- **Never strip all three interaction signifiers.** Shadow, radius and fill are slop tells and also the primary clickability cues. An interactive element keeps at least two of border, fill, and a hover or focus delta. Removing all three makes the page read unfinished as well as bland.
+- **Conventions stay.** Nav, forms, hierarchy and checkout are load-bearing. Diverge on type, color, section order, imagery, microcopy and motion instead.
+- **Accessibility outranks aesthetics.** No fix may reduce contrast, remove focus states, shrink tap targets, or ignore `prefers-reduced-motion`.
+- **The brand stays the brand.** If the purple is the company's actual color, it stays, used with more intention.
+- **Restraint over reinvention.** Anti-slop is a direction, not a style. Swinging to brutalism because "AI can't do that" produces a different template.
+- **Parameterize per project.** If every user of this skill produces the same non-slop, the skill has manufactured a new default. Derive the palette from the project's own material and invent the signature move per project.
+- **Keep receipts.** List what you kept and why, so a reviewer sees the restraint was deliberate.
 
 ## Agent compatibility
 
-This skill is plain Markdown against the open `SKILL.md` standard and requires no tool by name. It runs in Claude Code, Codex, Cursor, and Gemini CLI. Adapt the capture step:
+Plain Markdown against the open `SKILL.md` standard, requiring no tool by name. Runs in Claude Code, Codex, Cursor and Gemini CLI.
 
 | Host | Capture with |
 |---|---|
-| **Claude Code** | Browser pane (`preview_start`/`navigate`, `computer` screenshot, `resize_window` for mobile, `get_page_text`), plus Glob, Read and Grep for code |
-| **Codex** | Its browser and web tools where enabled. Otherwise fetch the HTML, audit the code, and ask the user for screenshots. Shell tools such as `curl` and `rg` cover the VOCAB sweep |
-| **Any other agent** | Whatever fetch, screenshot and search tools it has, falling back to the no-browser path above |
+| **Claude Code** | Browser pane (`preview_start`/`navigate`, `computer` screenshot, `resize_window`, `get_page_text`), plus Glob, Read and Grep |
+| **Codex** | Its browser and web tools where enabled, otherwise fetch the HTML and request screenshots. Shell tools cover the VOCAB sweep |
+| **Any other agent** | Whatever fetch, screenshot and search tools exist, falling back to the no-browser path |
 
-Degrade honestly. When you cannot run a mode for lack of rendering or shell access, run the catalog against what you can see and label the untested categories in the report rather than guessing.
+Degrade honestly. Run the catalog against what you can see and label the untested categories rather than guessing.
 
 ## Related skills
 
-Use these when the host provides them, and skip them without comment otherwise.
-- `design-taste` / `frontend-design`: positive design direction once the slop is gone. This skill detects tells; those two supply taste.
-- `stop-slop` (Anthropic): de-AI-ing long-form prose. Use it on the site's blog posts and docs. UI copy is covered here in `copy-content.md`.
+Use when the host provides them, skip silently otherwise.
+- `design-taste` / `frontend-design`: additional positive design direction.
+- `stop-slop` (Anthropic): de-AI-ing long-form prose. Use it on the site's blog and docs. UI copy is covered in `copy-content.md`.
