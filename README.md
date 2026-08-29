@@ -4,7 +4,7 @@
 
 **An agent skill that makes a website stop looking AI-generated.**
 
-Not by deleting tells. By committing to an art direction and rebuilding from tokens.
+Strips the AI fingerprints without restyling your site. Rebuilds around a committed art direction only if you ask.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-ready-6b4bff.svg)](#install)
@@ -21,9 +21,24 @@ Open five new startup sites and you meet the same page. A pill badge with a spar
 
 Your visitors recognize that page in about five seconds and stop believing anything below the fold.
 
-## Why deleting the tells makes it worse
+## Two jobs, and only one of them is safe piecemeal
 
-v1 of this skill was a 284-item catalog of AI design tells, and it told the agent to fix them one at a time. A user ran it and reported the result looked **more** AI-generated than the original. They were right, for four reasons now documented in [method.md](references/method.md).
+"This looks AI-generated" hides two different requests, and mixing them is what breaks pages.
+
+**Artifacts are always safe to remove.** A Lovable badge, a "Create Next App" tab title, lorem ipsum, a fabricated testimonial, a dead `href="#"`, a six-fingered hero image. These are wrong whatever your design direction, so deleting them can only help. That is the **CLEAN pass**, and it runs by default.
+
+**Style defaults are not.** Inter, indigo-500, the centered hero, `rounded-xl` on everything. Each is a *choice* that happens to be the statistical average, and changing one in isolation produces incoherence, which reads worse than consistent genericness. These need an art direction, so CLEAN reports them and leaves them alone.
+
+```text
+/stop-design-slop            → CLEAN. Strips artifacts. Never touches your design system.
+/stop-design-slop redesign   → Commits to a direction and rebuilds from tokens.
+```
+
+CLEAN may not edit theme tokens, `font-family`, the palette, the radius or shadow scale, or layout structure. That single constraint is what makes it safe to run on a site somebody else designed, or an hour before launch.
+
+## Why deleting the style tells makes it worse
+
+v1 of this skill was a 284-item catalog of AI design tells, and it told the agent to fix them all one at a time, style defaults included. A user ran it and reported the result looked **more** AI-generated than the original. They were right, for four reasons now documented in [method.md](references/method.md).
 
 **Coverage.** A 284-item ban list constrains 284 decisions. A page makes thousands: line-height, measure, hover easing, focus ring, caption style, table rules, empty states. Every decision the list does not name reverts to the model's default. Silence in a design system *is* the default, so a subtractive audit can never win however long it grows.
 
@@ -33,9 +48,23 @@ v1 of this skill was a 284-item catalog of AI design tells, and it told the agen
 
 **The metric was wrong.** A score that only counts tells has its optimum at a flat gray page with a system font and no motion. Zero tells, zero decisions. Absence of decisions is itself the AI signature.
 
-So the tells stopped driving the fix. They now appear as diagnosis before the work and as lint assertions after it. In between, the skill commits to a direction and rebuilds from the token layer.
+So style tells stopped driving the fix. In CLEAN they are reported rather than applied. In REDESIGN they appear as diagnosis before the work and as lint assertions after it, while a committed direction sits in between.
 
-## What it does instead
+## What CLEAN does
+
+```
+DIAGNOSE + CLASSIFY  →  FIX A  →  FIX B  →  ADD CRAFT  →  REPORT C  →  VERIFY
+```
+
+Every tell is classified. **A** is an artifact, wrong whatever the design. **B** is local, fixable in place without touching a system token: copy rewrites, alt text, deleting an ambient animation, capping line length. **C** is systemic and needs a direction.
+
+CLEAN fixes A and B, then adds the craft details that need no direction (real punctuation, `text-wrap: balance`, tracking tuned by size, a focus ring in your existing brand color, tabular figures, real empty and error states), then hands back a report of C.
+
+That last part matters: pairing every removal with a local addition is what stops a clean pass trending toward bland. The site gains human signal while keeping the look it already had. Roughly 60% of the catalog is actionable this way, and it is the highest-trust 60%: artifacts, fabrications, copy, motion noise and accessibility. Copy alone often moves a page further than any visual change, since readers detect slop through language faster than through layout.
+
+Full classification per catalog is in [clean-pass.md](references/clean-pass.md).
+
+## What REDESIGN does
 
 ```
 DIAGNOSE  →  BRIEF  →  SPEC  →  REBUILD  →  LINT  →  JUDGE
@@ -84,12 +113,15 @@ Clone anywhere and point the agent at `SKILL.md`. No tool is a hard requirement;
 ## Use
 
 ```text
-/stop-design-slop https://yoursite.com    diagnose, then commit and rebuild
-/stop-design-slop                         same, on the current project
-/stop-design-slop audit-only              diagnosis + spec + plan, changes nothing
+/stop-design-slop https://yoursite.com    CLEAN: strip artifacts, keep the design
+/stop-design-slop                         CLEAN, on the current project
+/stop-design-slop redesign                commit to a direction and rebuild from tokens
+/stop-design-slop audit-only              diagnosis + plan, changes nothing
 /stop-design-slop build                   prevention mode: spec before any code exists
 /stop-design-slop quick                   the 63 instant tells, fast diagnosis only
 ```
+
+The skill will not escalate to a redesign on its own. It finishes the clean pass, reports what a direction would fix, and leaves the decision to you.
 
 In Codex, swap the leading `/` for `$`. In any agent you can also just say "this looks AI-generated, fix it."
 
@@ -170,6 +202,10 @@ Revert to the pre-audit commit rather than repairing forward. The generic origin
 **My site came out of v0, Lovable or Bolt.** That is the main use case. Catalog 7 strips builder fingerprints and the spec keeps the next build clean.
 
 **Is this anti-AI?** It is anti-default. Build with whatever you like; the skill checks that the result looks like somebody made a decision.
+
+**Can I run it on a site I don't own the design of?** Yes, that is what CLEAN is for. It cannot edit theme tokens, fonts, the palette, the radius scale or layout, so the design system you inherited comes out unchanged.
+
+**Which mode do I want?** CLEAN if the design is fine and the AI fingerprints are the problem, or if you ship soon. REDESIGN when the clean pass finishes and the 5-second test still says "generic", the Commitment Score is under 3, or the lineup test cannot pick your site out of five competitors.
 
 ## Contributing
 

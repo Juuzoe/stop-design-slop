@@ -1,5 +1,15 @@
 # Changelog
 
+## v2.1.0, 2026-08-29
+
+The default mode no longer restyles your site. v2.0 made every run a redesign, which is heavier than most people want when they say a page looks AI-generated.
+
+- **CLEAN is now the default.** It strips AI artifacts, rewrites local content, adds direction-free craft details, and reports anything needing an art direction without touching it. A redesign takes an explicit `redesign` in the arguments, and the skill never escalates on its own.
+- **New A/B/C scope classification** in `references/clean-pass.md`. **A** is an artifact that is wrong whatever the design (watermarks, placeholder text, fabricated proof, dead links, six-fingered images). **B** is local, fixable without touching a system token (copy, alt text, ambient motion, focus rings, line length). **C** is systemic and needs a direction (typeface, palette, radius scale, hero composition, section order). Classification is broken down per catalog.
+- **The constraint that makes CLEAN safe:** it may not edit theme tokens, `font-family`, the palette, the radius or shadow scale, or layout structure. Incoherence comes from changing one system property in isolation, so CLEAN changes none of them. This makes it safe to run on a site somebody else designed.
+- **CLEAN pairs every removal with a local addition,** so a clean pass gains human signal rather than trending toward bland. Roughly 60% of the catalog is actionable this way, and it is the highest-trust 60%.
+- CLEAN reports both scores and expects a different result from the redesign gate: Slop Score falls a long way, Commitment Score rises a little.
+
 ## v2.0.0, 2026-08-29
 
 A user ran v1 on their project and the result looked more AI-generated than the original. They were right, and the diagnosis reshaped the skill: removing tells produces bland design, and bland reads as machine-made. The catalog is intact, but it no longer drives the fix.

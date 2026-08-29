@@ -1,37 +1,50 @@
 ---
 name: stop-design-slop
-description: Make a website stop looking AI-generated, by committing to a specific art direction and rebuilding from tokens rather than by deleting tells. Use when the user says a site looks AI-generated, generic, template-y, or "like every other SaaS page"; asks to de-slop, de-AI, humanize, or "make it not look AI"; wants an AI-slop audit or slop score; is redesigning an existing site; or is starting a new site, landing page or app and wants it distinctive from the first commit. Pairs a 284-tell diagnostic catalog with 13 fully-specified art directions, executable color and type derivation math, and 64 craft details, producing a filled DESIGN.md spec for the project.
+description: Strip the AI fingerprints from a website without restyling it, and optionally rebuild it around a committed art direction. Use when the user says a site looks AI-generated, generic, template-y, or "like every other SaaS page"; asks to de-slop, de-AI, humanize, clean up, or "make it not look AI"; wants an AI-slop audit or slop score; needs builder watermarks, placeholder text or fabricated testimonials removed; is redesigning an existing site; or is starting a new site, landing page or app and wants it distinctive from the first commit. Defaults to a safe clean pass that never touches the design system; a redesign takes an explicit word. Carries a 284-tell diagnostic catalog, 13 specified art directions, color and type derivation math, and 64 craft details.
 ---
 
 # stop-design-slop
 
 ## Read this before anything else
 
-**Removing tells does not produce good design. It produces bland design, which reads as AI-generated too.**
+Two different jobs hide behind "this looks AI-generated", and mixing them is what breaks pages.
 
-Earlier versions of this skill prescribed fixing tells one at a time. That approach makes pages worse, for reasons documented in `references/method.md`:
+**Removing artifacts is always safe.** A builder watermark, lorem ipsum, a fabricated testimonial, a dead link, a six-fingered hero image: these are wrong whatever the design direction, and deleting them can only improve the site. This is the CLEAN pass, and it is the default.
+
+**Restyling is not safe piecemeal.** The typeface, the palette, the radius scale, the hero composition: each is a *choice* that happens to be modal. Change one in isolation and you get incoherence, which reads worse than consistent genericness. These need a direction, so CLEAN reports them and leaves them alone.
+
+**Removing style defaults one at a time does not produce good design. It produces bland design, which reads as AI-generated too.**
+
+An earlier version of this skill prescribed exactly that, and it made pages worse for reasons documented in `references/method.md`:
 
 - A 284-item ban list constrains 284 decisions out of the thousands a page makes. Every unconstrained decision reverts to the model's default.
 - Banning the most common option promotes the second most common one. Everyone lands on the same runner-up, so anti-slop output ends up more uniform than the slop it replaced.
 - Thirty tells fixed as thirty independent edits produce thirty unrelated decisions. The generic original was at least coherent, and incoherence reads as broken.
 - Optimizing for the fewest tells converges on a flat gray page with a system font. Zero tells, zero decisions.
 
-**So the tells never drive the fix.** They appear twice, as diagnosis before the work and as lint assertions after it. Between those two points you commit to a direction and rebuild from the token layer.
+**So in REDESIGN, the tells never drive the fix.** They appear as diagnosis before the work and as lint assertions after it, while a committed direction and a token-layer rebuild sit in between. In CLEAN, the tells drive only the artifact and content fixes, which carry no such risk because they change nothing system-wide.
 
 If you are here to repair a page a previous de-slop pass damaged, read the recovery section of `references/method.md` first. Reverting usually beats repairing forward.
 
 ## Modes
 
+**The default is CLEAN, which does not restyle the site.** A redesign is a bigger commitment than most people want when they say a page looks AI-generated, so it takes an explicit word.
+
 | Invocation | Mode |
 |---|---|
-| `/stop-design-slop <url>` | **AUDIT + REBUILD** a live site |
-| `/stop-design-slop` in a project with UI code | **AUDIT + REBUILD** the codebase |
-| `/stop-design-slop build`, or invoked while creating new UI | **PREVENT**: write the spec before any code exists |
-| `audit-only` / `report` in args | Diagnose and score, produce the spec and plan, change no files |
-| `quick` in args | The 63 `instant` tells only, for a fast diagnosis |
+| `/stop-design-slop <url>` or bare | **CLEAN** (default): strip AI artifacts, rewrite local content, add safe craft, report anything needing a direction |
+| `redesign` / `rebuild` / `direction` in args | **REDESIGN**: commit to a direction and rebuild from tokens |
+| `build` in args, or invoked while creating new UI | **PREVENT**: write the spec before any code exists |
+| `audit-only` / `report` in args | Diagnose and score only, change no files |
+| `quick` in args | The 63 `instant` tells, fast diagnosis |
 | `copy` / `visual` / `code` in args | Scope the diagnosis to those catalogs |
 
-Infer the mode rather than asking. Existing UI goes to AUDIT, a blank slate goes to PREVENT.
+Infer between CLEAN and PREVENT rather than asking: existing UI goes to CLEAN, a blank slate goes to PREVENT. **Never escalate to REDESIGN on your own.** Finish the clean pass, then report what a direction would fix and let the user decide.
+
+### CLEAN in one paragraph
+Read `references/clean-pass.md`. Every tell is class **A** (an artifact that is wrong whatever the design: watermarks, placeholder text, fabricated proof, dead links, six-fingered images), class **B** (fixable in place without touching a system token: copy, alt text, ambient motion, focus rings, line length), or class **C** (needs a direction: typeface, palette, radius scale, hero composition, section order). CLEAN fixes A and B, adds the direction-free craft details, and reports C without touching it.
+
+The constraint that makes it safe: **CLEAN may not edit theme tokens, `font-family`, the palette, the radius or shadow scale, or layout structure.** Incoherence comes from changing one system property in isolation, so CLEAN changes none of them.
 
 ## Files
 
@@ -39,7 +52,8 @@ Read `method.md` first, always. Then read what your phase needs.
 
 | File | Purpose |
 |---|---|
-| `references/method.md` | Why removal fails, the corrected model, the workflow, the `DESIGN.md` template, dual scoring |
+| `references/clean-pass.md` | **The default mode.** The A/B/C scope classification, what CLEAN may not touch, the safe additions, the escalation report |
+| `references/method.md` | Why removal-only fails, the corrected model, the REDESIGN workflow, the `DESIGN.md` template, dual scoring |
 | `references/art-direction.md` | The process that produces a commitment: brief, attribute disambiguation, competitive audit, divergence, propagation |
 | `references/directions.md` | 13 fully-specified directions with real typefaces and example sites, plus the attribute map and a free type shelf |
 | `references/derivation.md` | Executable math: hue sourcing, OKLCH ramps, APCA contrast solving, type selection and pairing, scale and spacing, radius and shadow systems |
@@ -54,21 +68,31 @@ Read `method.md` first, always. Then read what your phase needs.
 
 284 tells (63 instant, 154 strong, 67 mild) and 64 craft details.
 
-## Workflow
+## CLEAN workflow (default)
+
+```
+DIAGNOSE + CLASSIFY  →  FIX A  →  FIX B  →  ADD CRAFT  →  REPORT C  →  VERIFY
+```
+
+Full detail in `references/clean-pass.md`. Diagnose as below, classifying each hit A, B or C. Fix the artifacts, rewrite the local content (copy first, since it carries the most signal per edit), add the craft details that need no direction, then hand back a report of what a direction would fix. Verify that no diff touched a system token.
+
+## REDESIGN workflow (only when asked)
 
 ```
 DIAGNOSE  →  BRIEF  →  SPEC  →  REBUILD  →  LINT  →  JUDGE
 ```
 
-### 1. DIAGNOSE
+### 1. DIAGNOSE (both modes)
 
-Capture the current state, then walk the tell catalogs against it. Record each hit as `#N, where it appears, severity`, and record what already works as a do-not-touch list.
+Capture the current state, then walk the tell catalogs against it. Record each hit as `#N, where it appears, severity`, plus its class in CLEAN mode. Record what already works as a do-not-touch list.
 
 Capture with whatever the host provides. For a live URL: screenshot full-height at desktop width and again at ~375px, extract page text, check the tab title and favicon. With no browser: fetch the HTML and CSS, audit those, ask the user for screenshots, and state which visual tells you could not verify. For a codebase: read entry pages, global CSS and theme config, layout components, then run the VOCAB grep sweep at the end of each catalog. Judge the rendered page whenever you can.
 
 Run the **5-second test** explicitly: describe your first impression of the desktop screenshot in one sentence, before analysis. If it contains "generic", "template" or a tool name, that sentence is the headline of the report.
 
-Stop here in `audit-only` mode after producing the spec and plan.
+Stop here in `audit-only` mode, after the findings and the plan.
+
+**In CLEAN mode, stop reading here and follow `clean-pass.md`.** The steps below restyle the site and belong to REDESIGN.
 
 ### 2. BRIEF
 
@@ -126,7 +150,9 @@ Commitment Score = filled, propagated, nameable decisions (higher is better)
 | **low** | **low** | **Bland. The failure this skill exists to prevent.** |
 | low | high | Ship it. |
 
-Ship gate needs both: Slop Score 0 to 8, Commitment Score 5 or more, every mandatory positive from `method.md` present, and no regression in contrast, focus visibility, page weight, functionality or mobile layout.
+**REDESIGN ship gate** needs both: Slop Score 0 to 8, Commitment Score 5 or more, every mandatory positive from `method.md` present, and no regression in contrast, focus visibility, page weight, functionality or mobile layout.
+
+**CLEAN expects a different result.** The Slop Score falls a long way while the Commitment Score rises only a little, from the craft additions. It will not reach the redesign gate, and that is correct: CLEAN removes the evidence that a machine made the page, while a direction is what makes it look like a person chose it. Report both numbers and say which gap a redesign would close.
 
 ## Guardrails
 
