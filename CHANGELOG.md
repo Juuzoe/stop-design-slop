@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.3.0, 2026-08-29
+
+- **New tier 4 rule: specific does not mean longer.** Chasing specificity into verbosity is the failure mode of that tier, and this repo committed it on its own example. The first cleaned hero ran 42 words across headline, subhead and note, against 41 in the slop original: no reduction at all, and it read denser because the headline wrapped to three lines. Every claim in it was true and it was still worse. The rule now sets a length budget: headline 8 words or fewer over two rendered lines, subhead one sentence, feature blurbs under 15 words, and count the words before and after, since a rewrite that raises the total has failed.
+- **`examples/hero-tier2.html`,** the same hero after tiers 1 and 2 only. The glow orbs, gradient keyword, sparkle badge, emoji icons and "Supercharge Your Workflow" all survive, because removing decoration is tier 3 and rewriting copy is tier 4. It looks almost identical to the original, which is the tier 1 guarantee working.
+- **`hero-clean.html` retightened** from 42 words to 22. The headline became "Figma says #6366F1. Your CSS says #635BFF.", which states the whole problem in seven tokens where a paragraph had been.
+- READMEs now show the hero at three depths rather than two.
+
 ## v2.2.1, 2026-08-29
 
 - **Screenshots.** `examples/hero-before.png` and `hero-clean.png`, captured at 2x from headless Chrome, now sit at the top of the README comparison and in `examples/README.md`. GitHub cannot preview the HTML files, so the images carry the demonstration and the source stays alongside them.

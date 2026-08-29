@@ -76,29 +76,31 @@ Every tell is assigned a tier, ordered by how much judgment it needs and how muc
 
 Per-tell breakdown in [clean-pass.md](references/clean-pass.md).
 
-## Before and after
+## One hero at three depths
 
-| Before, ~25 catalogued tells | After tiers 1 to 4 |
-|---|---|
-| <img src="examples/hero-before.png" alt="Slop hero: pulsing sparkle badge, gradient keyword headline, purple glow orbs, stock avatars claiming 10,000 developers, Lovable badge in the corner"> | <img src="examples/hero-clean.png" alt="Cleaned hero: same Inter, same near-black ground, same indigo accent, with a specific headline and a named call to action"> |
+| Before, ~25 tells | Tiers 1 to 2 | Tiers 1 to 4 |
+|---|---|---|
+| <img src="examples/hero-before.png" alt="Slop hero: pulsing sparkle badge, gradient keyword headline, purple glow orbs, stock avatars claiming 10,000 developers, Lovable badge in the corner"> | <img src="examples/hero-tier2.png" alt="Same hero with the design untouched, minus the builder badge and the fabricated social proof"> | <img src="examples/hero-clean.png" alt="Cleaned hero in the same visual language with a short concrete headline"> |
 
-**Same typeface, same ground, same accent hue, same radii, same layout.** Inter, `#0a0a0a`, indigo, 12px radius, centered column. Every difference is an artifact removed, a falsehood corrected, decoration deleted, or craft added.
+**Tiers 1 and 2 leave the design alone.** The glow orbs, the gradient keyword, the sparkle badge, the emoji icons and "Supercharge Your Workflow" all survive, because removing decoration is tier 3 and rewriting copy is tier 4. Only the broken and the untrue went: the `Create Next App` title, the Lovable badge, `href="#"`, lorem ipsum, failing contrast, a missing focus ring, then the Acme Corp logo bar, the invented stat row and "★★★★★ Loved by 10,000+ developers".
 
-The clearest single change is the writing:
+The first two screenshots look almost the same, and that is the guarantee working.
+
+**Tiers 3 and 4 go further**, still without touching the typeface, ground, accent hue, radii or layout:
 
 > **Before:** Supercharge Your **Workflow**
 > Our all-in-one platform helps teams of all sizes streamline their workflow, boost productivity, and achieve more. Whether you're a solo founder or a Fortune 500 team, FlowSync scales with you.
-> `[Get Started]` `[Learn More]` · ★★★★★ Loved by 10,000+ developers
 
-> **After:** Your Figma variables and your CSS stop agreeing on day three.
-> FlowSync watches both and opens a pull request the moment they drift, with the diff attached. Most teams wire it up in about ten minutes.
-> `[Connect a Figma file]` · Watch the 90-second walkthrough
+> **After:** Figma says `#6366F1`. Your CSS says `#635BFF`.
+> FlowSync opens a pull request the moment they drift.
 
-Also gone: the Lovable badge, the `Create Next App` tab title, the Acme Corp logo bar, the invented stat row, `href="#"` links, lorem ipsum, and body text that failed 4.5:1. Added: a focus ring, tabular figures, balanced headings, a real updated date.
+### A mistake worth showing
 
-Two qualifiers, so the claim stays honest. Button fills went from the stock `135deg` gradient to solid indigo, which is tier 3 flattening decoration rather than a palette decision. And the after page still runs Inter on a default indigo, because that is tier 5. Closing that gap is what a redesign is for.
+The first cleaned version chased specificity into verbosity: an eleven-word headline over three lines, a two-sentence subhead, a paragraph per card. It came to **42 words against the slop original's 41**, so it removed nothing and read denser. Every claim in it was true and it was still worse.
 
-[`examples/README.md`](examples/README.md) lists every change by tier, including what tier 5 deliberately left alone. Source: [`hero-before.html`](examples/hero-before.html) · [`hero-clean.html`](examples/hero-clean.html).
+`clean-pass.md` now carries the rule that fixed it: **specific does not mean longer.** Headline 8 words or fewer over two lines, subhead one sentence, blurbs under 15 words, and count the words before and after. Reach for a concrete noun instead of a longer sentence, which is how a hero states the whole problem in seven tokens.
+
+[`examples/README.md`](examples/README.md) lists every change by tier, including what tier 5 deliberately left alone. Source: [`hero-before.html`](examples/hero-before.html) · [`hero-tier2.html`](examples/hero-tier2.html) · [`hero-clean.html`](examples/hero-clean.html).
 
 ## What REDESIGN does
 

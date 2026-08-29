@@ -83,7 +83,23 @@ From `craft-details.md`: C1 real punctuation (curly quotes, true dashes, real el
 
 **Content specificity**, which is unfakeable and costs nothing: real dates in `<time>`, a "last updated" wired to git, a build stamp, image credits, alt text with voice, one honest limitation stated next to the feature it affects.
 
-**Copy rewrites** belong here too, and they carry more signal per edit than anything else in the CLEAN pass, because readers detect slop through language faster than through layout. Work the blacklist in `copy-content.md`: headline formulas (#184 to #192), AI sentence constructions (#193 to #203), the word list (#204 to #215), generic CTAs rewritten to name the actual action (#216), exclamation saturation (#218), emoji in headings (#219), feature-card copy given specifics (#222), generic section headings made into assertions (#224), and default empty-state and 404 microcopy (#221).
+### Specific does not mean longer
+
+The failure mode of this tier, and the easiest one to fall into. Chasing specificity, you replace a vague three-word headline with a precise eleven-word one, add a qualifying subhead, then pad each feature card with a full explanation. Every word is now true, and the hero is worse than the slop it replaced.
+
+**A hero has a length budget, and truth does not exempt you from it.** Slop copy is short and empty. The fix is short and full, never long and full.
+
+Rules for this tier:
+
+- **Headline: 8 words or fewer**, holding to two rendered lines at display size. A headline wrapping to three lines has already lost.
+- **Subhead: one sentence.** If it needs two, the headline is doing the wrong job.
+- **Feature blurb: 15 words or fewer.** One mechanism each, not an explanation of it.
+- **Count words before and after.** A rewrite that raises the total has failed even when every claim in it is verifiable.
+- Reach for a concrete noun, a number or a name instead of a longer sentence. "Figma says #6366F1. Your CSS says #635BFF." carries more than a paragraph about token drift, in seven words.
+
+This repo made the mistake on its own example. The first cleaned hero ran 42 words across headline, subhead and note, against 41 in the slop original: no reduction at all, and it read denser because the headline wrapped to three lines. The current version says more in 22. See `examples/README.md`.
+
+**Copy rewrites** belong here, and they carry more signal per edit than anything else in the CLEAN pass, because readers detect slop through language faster than through layout. Work the blacklist in `copy-content.md`: headline formulas (#184 to #192), AI sentence constructions (#193 to #203), the word list (#204 to #215), generic CTAs rewritten to name the actual action (#216), exclamation saturation (#218), emoji in headings (#219), feature-card copy given specifics (#222), generic section headings made into assertions (#224), and default empty-state and 404 microcopy (#221).
 
 ---
 
