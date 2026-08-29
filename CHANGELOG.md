@@ -1,5 +1,19 @@
 # Changelog
 
+## v2.2.0, 2026-08-29
+
+Removal now runs in five tiers instead of one pass, so you can pick how far it goes.
+
+- **Tier 1, ESSENTIAL, carries a guarantee: it cannot make the site worse under any taste or design direction.** Everything in it is broken, left over from a generator, or missing: builder badges, default titles and favicons, placeholder text, LLM artifacts, dead links, ghost contact forms, console errors, exposed keys, missing focus states and alt text, failing contrast, absent meta tags. After a tier 1 pass the page looks the same, apart from a focus ring on tab and body text gaining contrast.
+- **Tier 2, HONEST:** fabricated testimonials, invented stats, placeholder logo bars, unsourced ratings, AI-image artifacts. Needs facts from you, and a fabrication is replaced with the truth or with nothing, never with a different fabrication.
+- **Tier 3, QUIET:** decorative additions removed. Ambient motion, particles, glow orbs, marquees, count-ups, scroll-jacking, hover-scale, gradient keywords, emoji icons. Subtractive only, so it never breaks coherence.
+- **Tier 4, CRAFT:** human detail added. Real punctuation, `text-wrap`, tracking by size, a focus ring in the existing accent, tabular figures, real states, and copy rewrites. This tier is what stops a clean pass trending toward bland.
+- **Tier 5, DIRECTION:** reported, never applied.
+
+Invocation: `essential` for tier 1, `tier N` for tiers 1 through N, bare for 1 to 4, `redesign` for the lot.
+
+**New worked example** in `examples/`. `hero-before.html` carries about 25 catalogued tells; `hero-clean.html` is the same page after tiers 1 to 4, with the typeface, ground, accent hue, radii and layout unchanged. `examples/README.md` lists every change by tier, including what tier 5 deliberately left alone. The README now carries the before/after comparison.
+
 ## v2.1.0, 2026-08-29
 
 The default mode no longer restyles your site. v2.0 made every run a redesign, which is heavier than most people want when they say a page looks AI-generated.

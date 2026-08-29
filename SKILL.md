@@ -32,19 +32,32 @@ If you are here to repair a page a previous de-slop pass damaged, read the recov
 
 | Invocation | Mode |
 |---|---|
-| `/stop-design-slop <url>` or bare | **CLEAN** (default): strip AI artifacts, rewrite local content, add safe craft, report anything needing a direction |
-| `redesign` / `rebuild` / `direction` in args | **REDESIGN**: commit to a direction and rebuild from tokens |
+| `/stop-design-slop <url>` or bare | **CLEAN**, tiers 1 to 4 (default) |
+| `essential` in args | **Tier 1 only.** Cannot make the site worse under any taste. |
+| `tier N` in args | Tiers 1 through N |
+| `redesign` / `rebuild` / `direction` in args | Tiers 1 to 4, then commit to a direction and rebuild from tokens |
 | `build` in args, or invoked while creating new UI | **PREVENT**: write the spec before any code exists |
 | `audit-only` / `report` in args | Diagnose and score only, change no files |
 | `quick` in args | The 63 `instant` tells, fast diagnosis |
 | `copy` / `visual` / `code` in args | Scope the diagnosis to those catalogs |
 
-Infer between CLEAN and PREVENT rather than asking: existing UI goes to CLEAN, a blank slate goes to PREVENT. **Never escalate to REDESIGN on your own.** Finish the clean pass, then report what a direction would fix and let the user decide.
+Infer between CLEAN and PREVENT rather than asking: existing UI goes to CLEAN, a blank slate goes to PREVENT. **Never escalate to a redesign on your own.** Finish the clean pass, report what a direction would fix, and let the user decide.
 
-### CLEAN in one paragraph
-Read `references/clean-pass.md`. Every tell is class **A** (an artifact that is wrong whatever the design: watermarks, placeholder text, fabricated proof, dead links, six-fingered images), class **B** (fixable in place without touching a system token: copy, alt text, ambient motion, focus rings, line length), or class **C** (needs a direction: typeface, palette, radius scale, hero composition, section order). CLEAN fixes A and B, adds the direction-free craft details, and reports C without touching it.
+### The tiers
 
-The constraint that makes it safe: **CLEAN may not edit theme tokens, `font-family`, the palette, the radius or shadow scale, or layout structure.** Incoherence comes from changing one system property in isolation, so CLEAN changes none of them.
+Read `references/clean-pass.md` for the per-tell breakdown.
+
+| Tier | Name | What it does | Can it make the site worse? |
+|---|---|---|---|
+| **1** | **ESSENTIAL** | Fixes what is broken, leftover or missing: builder badges, default titles, placeholder text, dead links, ghost forms, console errors, missing focus and alt text, failing contrast, absent meta | **No.** Under any taste, any direction. |
+| **2** | **HONEST** | Removes false content: fabricated testimonials, invented stats, placeholder logo bars, unsourced ratings, AI-image artifacts | No, but it needs facts from you |
+| **3** | **QUIET** | Removes decorative additions: ambient motion, particles, glow orbs, marquees, count-ups, hover-scale, gradient keywords, emoji icons | Only if you liked the decoration |
+| **4** | **CRAFT** | Adds human detail: real punctuation, `text-wrap`, tracking by size, focus ring in the existing accent, tabular figures, real states, specific copy | No, though it changes appearance a little |
+| **5** | **DIRECTION** | Typeface, palette, radius scale, hero composition, section order | Yes, piecemeal. Reported, never applied. |
+
+Tier 4 is what stops a clean pass trending toward bland: removal lowers the Slop Score, and craft raises the Commitment Score.
+
+**The constraint that keeps tiers 1 to 4 safe: no tier below 5 may edit theme tokens, `font-family`, the palette, the radius or shadow scale, or layout structure.** Incoherence comes from changing one system property in isolation, so CLEAN changes none of them. Verify the diff contains no such change before finishing.
 
 ## Files
 
@@ -52,7 +65,7 @@ Read `method.md` first, always. Then read what your phase needs.
 
 | File | Purpose |
 |---|---|
-| `references/clean-pass.md` | **The default mode.** The A/B/C scope classification, what CLEAN may not touch, the safe additions, the escalation report |
+| `references/clean-pass.md` | **The default mode.** Five tiers of removal, per-tell breakdown, what CLEAN may not touch, the tier-5 report |
 | `references/method.md` | Why removal-only fails, the corrected model, the REDESIGN workflow, the `DESIGN.md` template, dual scoring |
 | `references/art-direction.md` | The process that produces a commitment: brief, attribute disambiguation, competitive audit, divergence, propagation |
 | `references/directions.md` | 13 fully-specified directions with real typefaces and example sites, plus the attribute map and a free type shelf |
@@ -71,10 +84,12 @@ Read `method.md` first, always. Then read what your phase needs.
 ## CLEAN workflow (default)
 
 ```
-DIAGNOSE + CLASSIFY  →  FIX A  →  FIX B  →  ADD CRAFT  →  REPORT C  →  VERIFY
+DIAGNOSE + TIER  →  T1 ESSENTIAL  →  T2 HONEST  →  T3 QUIET  →  T4 CRAFT  →  REPORT T5  →  VERIFY
 ```
 
-Full detail in `references/clean-pass.md`. Diagnose as below, classifying each hit A, B or C. Fix the artifacts, rewrite the local content (copy first, since it carries the most signal per edit), add the craft details that need no direction, then hand back a report of what a direction would fix. Verify that no diff touched a system token.
+Full detail in `references/clean-pass.md`. Diagnose as below, assigning each hit a tier. Work the tiers in order and stop at whichever the user asked for. Report tier 5 rather than applying it, then verify no diff touched a system token.
+
+A worked example lives in `examples/`: `hero-before.html` and `hero-clean.html` are the same page before and after tiers 1 to 4, with typeface, background, accent, radius and layout identical between them.
 
 ## REDESIGN workflow (only when asked)
 
@@ -84,7 +99,7 @@ DIAGNOSE  →  BRIEF  →  SPEC  →  REBUILD  →  LINT  →  JUDGE
 
 ### 1. DIAGNOSE (both modes)
 
-Capture the current state, then walk the tell catalogs against it. Record each hit as `#N, where it appears, severity`, plus its class in CLEAN mode. Record what already works as a do-not-touch list.
+Capture the current state, then walk the tell catalogs against it. Record each hit as `#N, where it appears, severity`, plus its tier in CLEAN mode. Record what already works as a do-not-touch list.
 
 Capture with whatever the host provides. For a live URL: screenshot full-height at desktop width and again at ~375px, extract page text, check the tab title and favicon. With no browser: fetch the HTML and CSS, audit those, ask the user for screenshots, and state which visual tells you could not verify. For a codebase: read entry pages, global CSS and theme config, layout components, then run the VOCAB grep sweep at the end of each catalog. Judge the rendered page whenever you can.
 

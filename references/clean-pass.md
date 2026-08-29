@@ -1,117 +1,135 @@
-# CLEAN pass: strip the AI artifacts, keep the design
+# CLEAN pass: five tiers of AI removal
 
-The default mode. It removes what is objectively wrong, rewrites what is local, adds what is safe, and **reports** everything that would need an art direction to fix properly.
+The default mode. It works in tiers, ordered by how much judgment each one needs and how much it can change. Run as deep as you want, and stop wherever you like.
 
-It does not restyle your site. If you want the redesign, run `redesign` and follow `method.md`.
+| Tier | Name | What it does | Can it make the site worse? |
+|---|---|---|---|
+| **1** | **ESSENTIAL** | Fixes what is broken, leftover or missing | **No.** Under any taste, any direction. |
+| **2** | **HONEST** | Removes false and fabricated content | No, but it needs facts from you |
+| **3** | **QUIET** | Removes decorative additions | Only if you liked the decoration |
+| **4** | **CRAFT** | Adds human detail | No, though it changes appearance a little |
+| **5** | **DIRECTION** | The design system itself | Yes, if done piecemeal. Needs a redesign. |
 
-## The scope rule
+**Default is tiers 1 to 4.** Tier 5 is reported and never applied, because fixing one system property in isolation is what produces incoherence. Run `redesign` and follow `method.md` for that.
 
-Every tell falls into one of three classes. CLEAN acts on A and B, and only reports C.
+```
+/stop-design-slop              tiers 1-4 (default)
+/stop-design-slop essential    tier 1 only
+/stop-design-slop tier 2       tiers 1-2
+/stop-design-slop redesign     tiers 1-4, then commit to a direction
+```
 
-| Class | Definition | CLEAN |
-|---|---|---|
-| **A. Artifact** | Objectively wrong whatever the design direction: a builder watermark, placeholder text, a fabricated testimonial, a dead link, a six-fingered hero image. Nobody would defend it. | Fix |
-| **B. Local** | Fixable in place without touching a system-level token: copy rewrites, alt text, deleting an ambient animation, adding a focus ring, capping line length. The change does not propagate. | Fix |
-| **C. Systemic** | Cannot be fixed coherently without a direction: the typeface, the palette, the radius and shadow scale, hero composition, section order, grid. | Report only |
+---
 
-**The hard constraint that keeps CLEAN safe:** it may not edit theme tokens, `font-family` declarations, the color palette, the radius or shadow scale, or page layout structure. A fix requiring any of those is class C by definition.
+## Tier 1: ESSENTIAL
 
-This is what prevents the patchwork failure. Incoherence comes from changing one system property in isolation, so CLEAN changes none of them. It only removes things that were added on top and rewrites content in place, which leaves the site's existing design language exactly as it found it.
+**The guarantee: nothing here can make your site worse.** Every item is broken, left over from a generator, or missing. No item requires taste, brand knowledge or a design opinion. Nothing you intentionally designed gets touched.
 
-## Why CLEAN still improves the page
+Run this tier on anything, including a site you did not build, an hour before launch.
 
-Removal alone trends toward bland. CLEAN avoids that by pairing every removal with a local addition, none of which needs a direction:
+**Builder and framework leftovers.** The Lovable, Bolt, v0 or Replit badge (#252, #253). A preview subdomain serving production traffic (#254). The editor runtime script still loading (#255). Generator meta tags (#256). Tool-shaped asset paths (#257). `placeholder.svg` stubs (#258). A default page title such as "Create Next App" (#259). A framework favicon (#260). Scaffold package names (#261). A stock or blank 404 route (#263).
 
-- Delete an ambient animation, then give the interactive elements real hover, focus and active states (C52).
-- Delete a fabricated stat, then state the true number with its source, or say nothing.
-- Delete the emoji from a heading, then make the heading say something specific.
-- Delete nothing at all in the type system, but add real punctuation (C1), `text-wrap: balance` (C11), tracking tuned by size (C14), a brand focus ring (C39) and tabular figures (C7).
+**Placeholder and pipeline residue.** Lorem ipsum, "Your Company", `example.com`, `[Insert X]`, `{{ }}` (#248). Raw LLM artifacts such as "Certainly! Here's a compelling headline" (#246). Markdown bleed-through, where `**bold**` renders as literal asterisks (#247). HTML comments left in the served markup (#274). Product name drift between pages (#249). A frozen copyright year (#250).
 
-Those additions raise the Commitment Score without touching a token, which is the whole trick. A site can gain human signal while keeping its existing look.
+**Dead wiring.** `href="#"` links and links to pages that 404 (#269, #49). Social icons pointing at platform homepages or nowhere (#270). A contact form that shows a success toast and sends nothing (#271). A newsletter box with no provider behind it (#51).
 
-## Classification by catalog
+**Broken at runtime.** Console errors and failed asset fetches on first paint (#277). Hydration warnings (#278). API keys or service keys exposed in the client bundle (#276), which is a security incident before it is a design tell.
 
-Approximate, and the class of an individual entry can shift with context. When unsure, treat it as C and report it. Reporting is never wrong; a surprise restyle is.
+**Missing accessibility.** No visible focus state, usually `outline: none` with no replacement (#279). Missing or nonsense alt text (#280). Redundant ARIA that harms screen readers (#281). A broken heading hierarchy (#282). Body text failing 4.5:1, most often `text-gray-500` on a near-black ground (#68). All of these are repairs, and raising text lightness is not a palette change.
 
-### Structure and layout (#1–63): mostly C
-**Fix:** fabricated proof (#14 placeholder company logos, #17 impossible social proof on a pre-launch site, #24 decorative integration grid with no integrations behind it), dead wiring (#49 dead footer links, #51 unwired newsletter), placeholder sections (#55 placeholder blog), thin reality (#54 contact page that is only a form, so add a real address), filler (#33 cards that exist to close a row, #23 the all-green comparison table), and motion-carried sections (#13 infinite logo marquee, #19 testimonial marquees, which become static).
-**Report:** hero composition, grid structure, section order, spacing rhythm, symmetry, container widths, nav and footer architecture. All of it needs a direction.
+**Missing metadata.** No meta description, or a duplicated one (#266). Absent Open Graph and Twitter tags (#265). No robots.txt or sitemap (#267).
 
-### Color and effects (#64–93): mostly C
-**Fix:** #68 body text failing contrast on dark, since raising the text lightness is an accessibility repair rather than a palette change. #80 a glow clipped flat by `overflow: hidden`, which is a bug. #83 a noise overlay sitting on top of content, which harms legibility. #77 free-floating decorative glow orbs, which are added elements rather than system properties.
-**Report:** the palette itself, gradients, glassmorphism, radius scale, shadow system, dark-mode strategy. Changing any of these means changing all of them.
+**Performance repairs.** Multi-megabyte hero images with no `srcset` and no lazy loading (#283).
 
-### Typography (#94–121): mostly C
-**Fix:** #107 a gradient keyword, which reverts to the existing text color. #120 unmanaged line length, capped at 66ch. #116 Title Case, switched to sentence case. #113 eyebrow labels that duplicate the heading below, deleted rather than restyled.
-**Report:** typeface choice, pairing, the type scale, weight system, tracking policy. These are the direction.
+**Verification for this tier:** the rendered page should look the same, apart from a focus ring appearing on tab and body text gaining contrast. If anything else moved, it belongs to a later tier.
 
-### Imagery and icons (#122–153): mixed, lots of A
-**Fix:** every AI-image artifact (#122 garbled pseudo-text, #123 hand anatomy, #124 waxy skin, #126 impossible geometry), fake product imagery (#139 meaningless dashboard, #140 invented UI, #141 fake terminal), fabricated people (#143 stock and generated testimonial faces), placeholder assets (#151 letter-in-gradient-square favicon, #258 placeholder.svg), emoji as icons (#144), mixed icon styles unified to one set (#147), and cliché stock subjects (#128, #130, #132).
-**Report:** the icon treatment system and the imagery art direction, which are style decisions.
+---
 
-### Motion and interaction (#154–183): almost all B
-Motion excess is added noise, so deleting it is safe and touches no system property.
-**Fix:** scroll reveals on every section (#154–158), the hero load cascade (#159), preloaders (#160), scroll-jacking and smooth-scroll hijack (#162, #163), particles and ambient loops (#170–175), typewriter and rotating headlines (#176, #177), count-ups (#178), `hover:scale-105` on non-clickable elements (#166), tilt and cursor effects (#167–169). Add `prefers-reduced-motion` handling (#182) and real interaction states (#183).
-**Report:** only the motion *system* (#181, a single global easing), which wants a house curve from the direction.
+## Tier 2: HONEST
 
-### Copy and content (#184–251): almost all A or B, and the highest value in CLEAN
-Copy fixes are local by nature, and readers detect slop through language faster than through layout. A visually untouched page with rewritten copy often reads dramatically more human.
-**Fix:** every fabrication (#228 round-number herd claims, #229 implausible logo bars, #230 press bars with no coverage, #231 unsourced ratings, #232 invented percentages, #233 stage-contradicting claims, #234 security theater, #235–237 synthetic testimonials), every hygiene failure (#246 raw LLM artifacts, #247 markdown bleed-through, #248 placeholder leftovers, #249 product name drift, #250 stale copyright, #251 template-tainted legal pages), and every formula and blacklist hit rewritten with specifics.
-**Report:** nothing. Copy needs no direction, only facts.
+Removes content that is not true. It cannot make the site less accurate, but it does change what the page claims, so it needs facts from you.
 
-### Code and meta (#252–284): almost all A
-**Fix:** all of it. Builder watermarks and subdomains, framework leftovers, default titles and favicons, missing OG tags and meta descriptions, dead links, decorative social icons, ghost contact forms, console errors, hydration warnings, missing focus states and alt text, broken heading hierarchy, unoptimized hero images, exposed secrets.
-**Report:** #272, the default framework palette in the compiled CSS, which is the palette question in disguise.
+**The rule: replace a fabrication with the true fact, or with nothing. Never with a different fabrication.**
 
-## Workflow
+Fabricated proof (#228 round-number herd claims, #229 implausible logo bars, #230 press bars with no coverage behind them, #231 unsourced star ratings, #232 invented percentages, #234 security theater with no security page). Placeholder company logos such as Acme Corp and Globex (#14). Invented stat banners (#16). Claims that contradict the product's visible stage, such as "Join 50,000+ users" on a waitlist (#17, #233). Synthetic testimonials, including stock and generated faces (#143, #235, #236, #237). Fake product imagery: dashboards with meaningless numbers (#139), rendered UI that was never built (#140), staged terminals running commands that do not work (#141). AI-image artifacts that make the picture itself a lie: garbled pseudo-text (#122), hand anatomy failures (#123), impossible background geometry (#126). Decorative integration grids for integrations that do not exist (#24). Template-tainted legal pages naming the wrong company (#251).
 
-### 1. Diagnose and classify
-Run the catalogs as usual. Record each hit as `#N, where, severity, class`.
+**Where honest silence beats a replacement:** a pre-launch product with no customers should say so. "In private beta with 12 teams since May" outperforms an invented number, and it cannot be falsified by a visitor.
 
-### 2. Fix class A
-No judgment required. Every one of these is wrong on its own terms. When a fabrication is removed, either replace it with the true fact or leave honest silence. Never substitute a different fabrication.
+---
 
-### 3. Fix class B
-Work through them in place. Copy first, since it carries the most signal per edit. Then motion noise, then the local visual fixes.
+## Tier 3: QUIET
 
-### 4. Add safe craft
-From `craft-details.md`, the entries that need no direction: C1 real punctuation, C4 `font-synthesis: none`, C7 tabular figures, C11 `text-wrap: balance`, C12 `text-wrap: pretty`, C14 tracking by size, C20 a measured measure, C38 styled `::selection`, C39 a focus ring in an existing brand color, C45 underline craft, C52 five distinct control states, C63 and C64 empty and error states, plus content specificity (real dates, a working "last updated", credits, honest limitations).
+Removes decoration that was added on top. Subtractive only, so it never breaks coherence, but it does change how the page looks. Run it when the ambient motion and glow are the thing making the page feel generated.
 
-These raise the Commitment Score while leaving the design language untouched.
+**Ambient motion.** Scroll reveals on every section (#154 to #158). The hero load cascade (#159). Preloaders on a brochure site (#160). Word-by-word scroll-linked text (#161). Scroll-jacking and smooth-scroll hijack (#162, #163). Parallax layers (#164). The bouncing chevron (#165). Particles and starfields (#170). Animated aurora blobs (#171). Floating and bobbing shapes (#172). Border beams (#173). Shimmer sweeps (#174). Pulsing badges and CTAs (#175). Typewriter and rotating headlines (#176, #177). Animated count-ups (#178). Generic Lottie clips (#179). Infinite logo and testimonial marquees, which become static rows (#13, #19).
 
-### 5. Report class C
-Group by what a direction would decide, and estimate the work. The report is the deliverable here, not a diff.
+**Hover and cursor effects.** `hover:scale-105` on everything, especially non-clickable elements (#166). 3D tilt cards (#167). Cursor-tracking spotlights (#168). Custom cursor followers (#169).
+
+**Decorative surface effects.** Free-floating blurred glow orbs (#77). Radial spotlight haze behind headings (#79). A glow clipped flat by `overflow: hidden`, which is a bug (#80). Noise overlays sitting on top of content and hurting legibility (#83).
+
+**Decorative type and icon treatments.** The gradient keyword, which reverts to the heading's existing color (#107). Emoji used as feature icons (#144). Mixed icon styles unified into the set already most used (#147). Gradient-filled icons set back to `currentColor` (#149). Eyebrow labels that only repeat the heading below (#113).
+
+**Always add back when you remove motion:** real hover, focus, active and disabled states (#183), plus `prefers-reduced-motion` handling (#182). Stripping animation without adding state feedback leaves the page feeling dead, which is its own failure.
+
+---
+
+## Tier 4: CRAFT
+
+Adds the human detail. Purely additive, entirely local, and it needs no direction because every value comes from what the site already uses.
+
+This tier is what stops a clean pass trending toward bland. Removal lowers the Slop Score; this is what raises the Commitment Score.
+
+From `craft-details.md`: C1 real punctuation (curly quotes, true dashes, real ellipsis). C4 `font-synthesis: none`. C7 tabular figures on anything numeric. C11 `text-wrap: balance` on headings. C12 `text-wrap: pretty` on prose. C14 tracking tuned by size, using the face already loaded. C20 a measured measure at 66ch. C38 a styled `::selection` in the existing accent. C39 a focus ring in the existing brand color. C45 underline craft on links. C52 five genuinely distinct control states. C63 and C64 real empty and error states.
+
+**Content specificity**, which is unfakeable and costs nothing: real dates in `<time>`, a "last updated" wired to git, a build stamp, image credits, alt text with voice, one honest limitation stated next to the feature it affects.
+
+**Copy rewrites** belong here too, and they carry more signal per edit than anything else in the CLEAN pass, because readers detect slop through language faster than through layout. Work the blacklist in `copy-content.md`: headline formulas (#184 to #192), AI sentence constructions (#193 to #203), the word list (#204 to #215), generic CTAs rewritten to name the actual action (#216), exclamation saturation (#218), emoji in headings (#219), feature-card copy given specifics (#222), generic section headings made into assertions (#224), and default empty-state and 404 microcopy (#221).
+
+---
+
+## Tier 5: DIRECTION (reported, never applied)
+
+Everything that cannot be fixed coherently one piece at a time.
+
+Typeface, pairing, type scale, weight system (#94 to #106, #109 to #112). Palette, gradients, glass, glow as a system, radius scale, shadow system, dark-mode strategy (#64 to #67, #69 to #76, #81, #82, #84 to #93). Hero composition, grid structure, section order, spacing rhythm, symmetry, container widths, nav and footer architecture (#1 to #12, #15, #18, #20 to #23, #25 to #48, #50, #52 to #63). The icon treatment system (#145, #146) and imagery art direction (#128 to #138). The motion system as a whole, meaning one house easing curve (#181). The framework's default palette still reachable in config (#272).
+
+Report these grouped by what a direction would decide:
 
 ```markdown
 ## Needs a direction (not changed)
 
 **Type** (#94 Inter throughout, #101 no pairing, #103 flat scale)
-A direction would set a display face, a pairing and a scale ratio.
-Fixing #94 alone would swap one default for another.
+A direction sets a display face, a pairing and a scale ratio.
+Fixing #94 alone swaps one default for another.
 
 **Color** (#64 indigo-500, #72 blue-to-purple gradient, #90 shadcn defaults)
-A direction would derive an owned hue and a 12-step ramp.
-Changing the accent alone leaves the neutrals and semantics mismatched.
+A direction derives an owned hue and a 12-step ramp.
+Changing the accent alone leaves neutrals and semantics mismatched.
 
 **Composition** (#2 centered hero stack, #26 icon-tile grid, #38 total symmetry)
-A direction would set a grid, a focal point and one tension move.
+A direction sets a grid, a focal point and one tension move.
 
-Run `/stop-design-slop redesign` to do this properly. Estimated: <scope>.
+Run `/stop-design-slop redesign` to do this properly.
 ```
 
-### 6. Verify
-Confirm the constraint held: **no diff touching theme tokens, `font-family`, the palette, the radius or shadow scale, or layout structure.** If one appears, it escaped scope, so revert it and move the entry to the C report.
+---
 
-Then check regressions as usual: contrast, focus visibility, page weight, functionality, mobile layout. Re-score both axes. In CLEAN, the Slop Score falls while the Commitment Score rises a little from the craft additions. It will not reach the ship gate of the redesign path, and that is expected.
+## The constraint that keeps tiers 1 to 4 safe
 
-## When CLEAN is the right call
+**No tier below 5 may edit theme tokens, `font-family`, the palette, the radius or shadow scale, or layout structure.**
 
-- The site's design is fine and you want the AI fingerprints gone.
-- Somebody else owns the design system and you may not change it.
-- You are shipping soon and a redesign is out of scope.
-- The site came out of a builder and needs de-watermarking before launch.
-- You want the cheap high-signal wins first, then to decide about a redesign afterward.
+Incoherence comes from changing one system property in isolation, so CLEAN changes none of them. This is what makes it safe on a site somebody else designed.
 
-## When to escalate
+**Verify it held:** the diff should contain no change to any of those. If one appears, it escaped scope, so revert it and move the entry into the tier 5 report.
 
-Escalate to `redesign` when the C report is where the actual problem lives: the 5-second test still says "generic" after a clean pass, the Commitment Score sits below 3, or the lineup test cannot pick your site out of five competitors. CLEAN removes the evidence that a machine made the page. Only a direction makes it look like a person chose it.
+Then check regressions as usual: contrast, focus visibility, page weight, functionality, mobile layout.
+
+## Expected scores
+
+CLEAN drops the Slop Score a long way and raises the Commitment Score only a little, from tier 4. It will not reach the redesign ship gate, and that is correct. CLEAN removes the evidence that a machine made the page. A direction is what makes it look like a person chose it.
+
+Report both numbers and name the gap a redesign would close.
+
+## Worked example
+
+`examples/hero-before.html` and `examples/hero-clean.html` in this repo are the same page before and after tiers 1 to 4. The typeface, background color, accent, border radius and layout are byte-identical between them. Every difference is an artifact removed, a falsehood corrected, decoration deleted or craft added.

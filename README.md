@@ -31,6 +31,7 @@ Your visitors recognize that page in about five seconds and stop believing anyth
 
 ```text
 /stop-design-slop            → CLEAN. Strips artifacts. Never touches your design system.
+/stop-design-slop essential  → Tier 1 only. Cannot make your site worse under any taste.
 /stop-design-slop redesign   → Commits to a direction and rebuilds from tokens.
 ```
 
@@ -50,19 +51,57 @@ v1 of this skill was a 284-item catalog of AI design tells, and it told the agen
 
 So style tells stopped driving the fix. In CLEAN they are reported rather than applied. In REDESIGN they appear as diagnosis before the work and as lint assertions after it, while a committed direction sits in between.
 
-## What CLEAN does
+## Five tiers of removal
 
+Every tell is assigned a tier, ordered by how much judgment it needs and how much it can change. Run as deep as you want.
+
+| Tier | Name | What it does | Can it make the site worse? |
+|---|---|---|---|
+| **1** | **ESSENTIAL** | Builder badges, default titles and favicons, placeholder text, LLM artifacts, dead links, ghost contact forms, console errors, exposed keys, missing focus states and alt text, failing contrast, absent meta tags | **No.** Under any taste, any direction. |
+| **2** | **HONEST** | Fabricated testimonials, invented stats, placeholder logo bars, unsourced ratings, press bars with no coverage, AI-image artifacts | No, but it needs facts from you |
+| **3** | **QUIET** | Ambient motion, particles, glow orbs, marquees, count-ups, scroll-jacking, `hover:scale-105`, gradient keywords, emoji icons | Only if you liked the decoration |
+| **4** | **CRAFT** | Real punctuation, `text-wrap: balance`, tracking by size, a focus ring in your existing accent, tabular figures, real empty and error states, specific copy | No, though it changes appearance a little |
+| **5** | **DIRECTION** | Typeface, palette, radius scale, hero composition, section order | Yes, piecemeal. Reported, never applied. |
+
+```text
+/stop-design-slop              tiers 1-4 (default)
+/stop-design-slop essential    tier 1 only — the "cannot possibly hurt" pass
+/stop-design-slop tier 2       tiers 1-2
+/stop-design-slop redesign     tiers 1-4, then commit to a direction
 ```
-DIAGNOSE + CLASSIFY  →  FIX A  →  FIX B  →  ADD CRAFT  →  REPORT C  →  VERIFY
-```
 
-Every tell is classified. **A** is an artifact, wrong whatever the design. **B** is local, fixable in place without touching a system token: copy rewrites, alt text, deleting an ambient animation, capping line length. **C** is systemic and needs a direction.
+**Tier 1 carries a real guarantee.** Every item in it is broken, left over from a generator, or missing. Nothing requires taste or brand knowledge, and nothing you intentionally designed gets touched. After a tier 1 pass the page should look the same, apart from a focus ring appearing on tab and body text gaining contrast. Safe on a site you did not build, an hour before launch.
 
-CLEAN fixes A and B, then adds the craft details that need no direction (real punctuation, `text-wrap: balance`, tracking tuned by size, a focus ring in your existing brand color, tabular figures, real empty and error states), then hands back a report of C.
+**Tier 4 is why a clean pass does not go bland.** Removal lowers the Slop Score; craft raises the Commitment Score. Copy rewrites live here and carry more signal per edit than anything else, since readers detect slop through language faster than through layout.
 
-That last part matters: pairing every removal with a local addition is what stops a clean pass trending toward bland. The site gains human signal while keeping the look it already had. Roughly 60% of the catalog is actionable this way, and it is the highest-trust 60%: artifacts, fabrications, copy, motion noise and accessibility. Copy alone often moves a page further than any visual change, since readers detect slop through language faster than through layout.
+Per-tell breakdown in [clean-pass.md](references/clean-pass.md).
 
-Full classification per catalog is in [clean-pass.md](references/clean-pass.md).
+## Before and after
+
+[`examples/hero-before.html`](examples/hero-before.html) is a hero packed with about 25 catalogued tells. [`examples/hero-clean.html`](examples/hero-clean.html) is the same page after tiers 1 to 4. Open both locally to compare.
+
+**The typeface, background, accent hue, border radius and layout are unchanged between them.** Inter, `#0a0a0a`, indigo, 12px radius, centered column. Every difference is an artifact removed, a falsehood corrected, decoration deleted, or craft added. (The one qualifier: button fills went from the stock `135deg` gradient to solid indigo, which is tier 3 flattening decoration rather than a palette change.)
+
+| | Before | After |
+|---|---|---|
+| Tab title | `Create Next App` | `FlowSync — design tokens that stay in sync with your code` |
+| Corner | "Edit with Lovable" badge | removed |
+| Hero badge | `✨ Announcing our Series A 🎉`, pulsing | removed |
+| Headline | `Supercharge Your **Workflow**`, gradient keyword | `Your Figma variables and your CSS stop agreeing on day three.` |
+| Subhead | "all-in-one platform... teams of all sizes... whether you're a solo founder or a Fortune 500 team" | "watches both and opens a pull request the moment they drift, with the diff attached" |
+| Buttons | `Get Started` + `Learn More` | `Connect a Figma file` + `Watch the 90-second walkthrough` |
+| Social proof | 5 stock avatars, ★★★★★, "Loved by 10,000+ developers" | removed (none of it was true) |
+| Logo bar | Acme Corp, TechFlow, Globex, Initech | removed |
+| Stats | 10,000+ · 99.9% · 4.9/5 · 24/7 | removed |
+| Feature cards | ⚡ Blazing Fast · 🔒 Secure by Default · 📊 Powerful Analytics | Drift detection · Pull requests, not dashboards · Contrast checks on merge, each with a real mechanism |
+| Background | two blurred purple glow orbs | flat `#0a0a0a` |
+| Card hover | `transform: scale(1.05)` | border-color shift |
+| Body text | `#71717a` on `#0a0a0a` (fails 4.5:1) | `#a1a1aa` (passes) |
+| Focus | none | 2px ring in the existing indigo |
+| Footer | lorem ipsum, `hello@example.com`, © 2024 | real email, a stated limitation, `v0.9.2 · updated 12 Aug 2026` |
+| Links | `href="#"` throughout | real routes |
+
+The after page is still recognizably the same product in the same visual language. It just no longer contains any evidence that a machine assembled it. Closing the remaining gap, which is that the typeface and palette are still framework defaults, is what tier 5 and a redesign are for.
 
 ## What REDESIGN does
 
@@ -113,8 +152,10 @@ Clone anywhere and point the agent at `SKILL.md`. No tool is a hard requirement;
 ## Use
 
 ```text
-/stop-design-slop https://yoursite.com    CLEAN: strip artifacts, keep the design
+/stop-design-slop https://yoursite.com    CLEAN tiers 1-4: strip artifacts, keep the design
 /stop-design-slop                         CLEAN, on the current project
+/stop-design-slop essential               tier 1 only, the "cannot possibly hurt" pass
+/stop-design-slop tier 2                  tiers 1-2
 /stop-design-slop redesign                commit to a direction and rebuild from tokens
 /stop-design-slop audit-only              diagnosis + plan, changes nothing
 /stop-design-slop build                   prevention mode: spec before any code exists

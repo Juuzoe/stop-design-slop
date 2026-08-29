@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Create Next App</title>
+<link rel="icon" href="/vite.svg">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0a0a0a;color:#fff;font-family:Inter,system-ui,sans-serif;
+       text-align:center;overflow-x:hidden}
+  .orb{position:absolute;border-radius:9999px;filter:blur(90px);opacity:.35;pointer-events:none}
+  .orb-a{width:520px;height:520px;background:#8b5cf6;top:-160px;left:-120px}
+  .orb-b{width:460px;height:460px;background:#6366f1;top:-80px;right:-140px}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 24px;position:relative}
+  nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800}
+  .logo i{width:32px;height:32px;border-radius:12px;
+          background:linear-gradient(135deg,#667eea,#764ba2);display:block}
+  .navlinks{display:flex;gap:32px;font-size:14px;color:#a1a1aa}
+  .navlinks a{color:inherit;text-decoration:none}
+  .btn{border-radius:12px;padding:10px 18px;font-size:14px;font-weight:600;
+       border:0;cursor:pointer;text-decoration:none;display:inline-block}
+  .btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;
+               box-shadow:0 0 40px rgba(139,92,246,.5)}
+  .btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.2)}
+  .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;
+        justify-content:center;gap:24px;padding:60px 0}
+  .pill{display:inline-flex;align-items:center;gap:8px;border-radius:9999px;
+        border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);
+        padding:6px 14px;font-size:13px;color:#c4b5fd;animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+  h1{font-size:72px;line-height:1.05;letter-spacing:-.03em;font-weight:800;max-width:900px}
+  .grad{background:linear-gradient(90deg,#818cf8,#c084fc,#f472b6);
+        -webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{font-size:20px;color:#71717a;max-width:640px;line-height:1.6}
+  .ctas{display:flex;gap:12px;justify-content:center}
+  .proof{display:flex;align-items:center;gap:12px;justify-content:center;
+         font-size:14px;color:#71717a}
+  .avatars{display:flex}
+  .avatars span{width:32px;height:32px;border-radius:9999px;border:2px solid #0a0a0a;
+                margin-left:-8px;background:#3f3f46;display:block}
+  .stars{color:#facc15;letter-spacing:2px}
+  .shot{margin-top:16px;width:min(940px,90vw);aspect-ratio:16/9;border-radius:16px;
+        background:linear-gradient(160deg,#1e1b4b,#0a0a0a);
+        border:1px solid rgba(255,255,255,.1);box-shadow:0 0 80px rgba(99,102,241,.35);
+        display:flex;align-items:center;justify-content:center;color:#3f3f46;font-size:13px}
+  .eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:#a78bfa;
+           font-weight:600}
+  section{padding:96px 0}
+  h2{font-size:40px;letter-spacing:-.02em;margin:12px 0 10px;font-weight:800}
+  .logos{display:flex;gap:56px;justify-content:center;flex-wrap:wrap;
+         color:#52525b;font-weight:700;font-size:18px;filter:grayscale(1)}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:40px}
+  .stat b{display:block;font-size:40px;font-weight:800;
+          background:linear-gradient(90deg,#818cf8,#c084fc);
+          -webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat span{font-size:14px;color:#71717a}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+  .card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);
+        border-radius:16px;padding:28px;transition:transform .3s ease}
+  .card:hover{transform:scale(1.05)}
+  .icon{width:48px;height:48px;border-radius:12px;background:rgba(99,102,241,.15);
+        display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 16px}
+  .card h3{font-size:18px;font-weight:600;margin-bottom:8px}
+  .card p{font-size:14px;color:#71717a;line-height:1.6}
+  footer{border-top:1px solid rgba(255,255,255,.08);padding:40px 0;
+         font-size:13px;color:#52525b}
+  .badge{position:fixed;right:16px;bottom:16px;background:#111;color:#a1a1aa;
+         border:1px solid rgba(255,255,255,.15);border-radius:9999px;
+         padding:8px 14px;font-size:12px;z-index:50}
+</style>
+</head>
+<body>
+<div class="orb orb-a"></div><div class="orb orb-b"></div>
+
+<div class="wrap">
+  <nav>
+    <div class="logo"><i></i> FlowSync</div>
+    <div class="navlinks">
+      <a href="#features">Features</a><a href="#pricing">Pricing</a>
+      <a href="#testimonials">Testimonials</a><a href="#faq">FAQ</a>
+    </div>
+    <a class="btn btn-primary" href="#">Get Started</a>
+  </nav>
+
+  <div class="hero">
+    <div class="pill">✨ Announcing our Series A 🎉</div>
+    <h1>Supercharge Your <span class="grad">Workflow</span></h1>
+    <p class="sub">Our all-in-one platform helps teams of all sizes streamline their
+      workflow, boost productivity, and achieve more. Whether you're a solo founder or
+      a Fortune 500 team, FlowSync scales with you.</p>
+    <div class="ctas">
+      <a class="btn btn-primary" href="#">Get Started</a>
+      <a class="btn btn-ghost" href="#">Learn More</a>
+    </div>
+    <div class="proof">
+      <div class="avatars"><span></span><span></span><span></span><span></span><span></span></div>
+      <span class="stars">★★★★★</span>
+      <span>Loved by 10,000+ developers</span>
+    </div>
+    <div class="shot">[ dashboard screenshot ]</div>
+  </div>
+
+  <section>
+    <div class="eyebrow">Trusted By</div>
+    <h2>Trusted by leading teams</h2>
+    <div class="logos"><span>Acme Corp</span><span>TechFlow</span><span>Globex</span>
+      <span>Initech</span><span>DataSync</span></div>
+    <div class="stats">
+      <div class="stat"><b>10,000+</b><span>Active Users</span></div>
+      <div class="stat"><b>99.9%</b><span>Uptime</span></div>
+      <div class="stat"><b>4.9/5</b><span>Rating</span></div>
+      <div class="stat"><b>24/7</b><span>Support</span></div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="eyebrow">Features</div>
+    <h2>Everything you need to scale</h2>
+    <p class="sub" style="margin:0 auto">Powerful features designed to help you work
+      smarter, not harder.</p>
+    <div class="cards">
+      <div class="card"><div class="icon">⚡</div><h3>Blazing Fast</h3>
+        <p>Experience lightning-fast performance that empowers your team to move at
+           the speed of thought.</p></div>
+      <div class="card"><div class="icon">🔒</div><h3>Secure by Default</h3>
+        <p>Bank-level security and enterprise-grade encryption keep your data safe,
+           giving you complete peace of mind.</p></div>
+      <div class="card"><div class="icon">📊</div><h3>Powerful Analytics</h3>
+        <p>Unlock actionable insights so you can make data-driven decisions and focus
+           on what matters most.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Contact us at
+       hello@example.com</p>
+    <p style="margin-top:8px">© 2024 FlowSync. All rights reserved.</p>
+  </footer>
+</div>
+
+<div class="badge">Edit with Lovable</div>
+</body>
+</html>

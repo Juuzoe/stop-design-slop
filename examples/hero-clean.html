@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>FlowSync — design tokens that stay in sync with your code</title>
+<meta name="description" content="FlowSync watches your Figma variables and opens a
+  pull request when they drift from your CSS. Built for teams shipping a design system.">
+<meta property="og:title" content="FlowSync — design tokens that stay in sync">
+<meta property="og:image" content="/og.png">
+<style>
+  /* UNCHANGED from hero-before.html: typeface, palette, radius, spacing, layout.
+     Only artifacts, false content and decorative noise were removed;
+     craft details were added. Everything here is tier 1 to 4. */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0a0a0a;color:#fff;font-family:Inter,system-ui,sans-serif;
+       text-align:center;overflow-x:hidden;
+       font-variant-numeric:tabular-nums lining-nums}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 24px;position:relative}
+  nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800}
+  .logo i{width:32px;height:32px;border-radius:12px;background:#6366f1;display:block}
+  .navlinks{display:flex;gap:32px;font-size:14px;color:#a1a1aa}
+  .navlinks a{color:inherit;text-decoration:none;text-decoration-thickness:1px;
+              text-underline-offset:.18em}
+  .navlinks a:hover{text-decoration:underline}
+  .btn{border-radius:12px;padding:10px 18px;font-size:14px;font-weight:600;
+       border:0;cursor:pointer;text-decoration:none;display:inline-block;
+       transition:background 200ms ease,border-color 200ms ease}
+  .btn:hover{transition-duration:100ms}
+  .btn:active{transform:translateY(1px)}
+  .btn-primary{background:#6366f1;color:#fff}
+  .btn-primary:hover{background:#4f46e5}
+  .btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.2)}
+  .btn-ghost:hover{border-color:rgba(255,255,255,.45)}
+  :focus-visible{outline:2px solid #818cf8;outline-offset:3px;border-radius:12px}
+  ::selection{background:rgba(99,102,241,.35)}
+  .hero{display:flex;flex-direction:column;align-items:center;gap:24px;
+        padding:120px 0 96px}
+  h1{font-size:72px;line-height:1.05;letter-spacing:-.03em;font-weight:800;
+     max-width:900px;text-wrap:balance}
+  .sub{font-size:20px;color:#a1a1aa;max-width:640px;line-height:1.6;text-wrap:pretty}
+  .ctas{display:flex;gap:12px;justify-content:center;align-items:center}
+  .ctas .link{font-size:14px;color:#a1a1aa;text-underline-offset:.18em}
+  .note{font-size:13px;color:#8b8b93}
+  .shot{margin-top:16px;width:min(940px,90vw);aspect-ratio:16/9;border-radius:16px;
+        background:#141414;border:1px solid rgba(255,255,255,.1);
+        display:flex;align-items:center;justify-content:center;color:#52525b;font-size:13px}
+  section{padding:96px 0}
+  h2{font-size:40px;letter-spacing:-.02em;margin-bottom:10px;font-weight:800;
+     text-wrap:balance}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px;
+         text-align:left}
+  .card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);
+        border-radius:16px;padding:28px;transition:border-color 200ms ease}
+  .card:hover{border-color:rgba(255,255,255,.28)}
+  .card h3{font-size:18px;font-weight:600;margin-bottom:8px}
+  .card p{font-size:14px;color:#a1a1aa;line-height:1.6;text-wrap:pretty}
+  .card code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+             font-size:13px;color:#c7d2fe}
+  footer{border-top:1px solid rgba(255,255,255,.08);padding:40px 0;
+         font-size:13px;color:#8b8b93;text-align:left;
+         display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  footer a{color:#a1a1aa;text-underline-offset:.18em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="logo"><i></i> FlowSync</div>
+    <div class="navlinks">
+      <a href="/docs">Docs</a><a href="/pricing">Pricing</a>
+      <a href="/changelog">Changelog</a><a href="https://github.com/flowsync">GitHub</a>
+    </div>
+    <a class="btn btn-primary" href="/signup">Connect a Figma file</a>
+  </nav>
+
+  <div class="hero">
+    <h1>Your Figma variables and your CSS stop agreeing on day three.</h1>
+    <p class="sub">FlowSync watches both and opens a pull request the moment they
+      drift, with the diff attached. Most teams wire it up in about ten minutes.</p>
+    <div class="ctas">
+      <a class="btn btn-primary" href="/signup">Connect a Figma file</a>
+      <a class="link" href="/demo">Watch the 90-second walkthrough</a>
+    </div>
+    <p class="note">Free while your file has under 200 variables. No card.</p>
+    <div class="shot">[ real product screenshot: token diff view ]</div>
+  </div>
+
+  <section>
+    <h2>What it actually does</h2>
+    <p class="sub" style="margin:0 auto">Three jobs, and it does not try to be your
+      design system.</p>
+    <div class="cards">
+      <div class="card">
+        <h3>Drift detection</h3>
+        <p>Polls the Figma Variables API every 60&nbsp;seconds and diffs it against
+          your <code>tokens.css</code>. Catches renames, not just value changes.</p>
+      </div>
+      <div class="card">
+        <h3>Pull requests, not dashboards</h3>
+        <p>Every change arrives as a PR against your repo with the before and after
+          swatches inline. Review it where you review everything else.</p>
+      </div>
+      <div class="card">
+        <h3>Contrast checks on merge</h3>
+        <p>Blocks a token change that would drop any shipped text pair below
+          4.5:1. The failing pair is named in the check output.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>
+      <p>Built by two people in Kraków. Email <a href="mailto:hi@flowsync.dev">hi@flowsync.dev</a>,
+         we answer within a day.</p>
+      <p style="margin-top:6px">Not built for teams over 200 designers. We optimize
+         for small files and fast syncs.</p>
+    </div>
+    <div style="text-align:right">
+      <p><a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></p>
+      <p style="margin-top:6px">v0.9.2 · updated 12 Aug 2026</p>
+    </div>
+  </footer>
+</div>
+</body>
+</html>
