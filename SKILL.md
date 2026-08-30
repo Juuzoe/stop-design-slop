@@ -1,6 +1,6 @@
 ---
 name: stop-design-slop
-description: Strip the AI fingerprints from a website without restyling it, and optionally rebuild it around a committed art direction. Use when the user says a site looks AI-generated, generic, template-y, or "like every other SaaS page"; asks to de-slop, de-AI, humanize, clean up, or "make it not look AI"; wants an AI-slop audit or slop score; needs builder watermarks, placeholder text or fabricated testimonials removed; is redesigning an existing site; or is starting a new site, landing page or app and wants it distinctive from the first commit. Defaults to a safe clean pass that never touches the design system; a redesign takes an explicit word. Carries a 284-tell diagnostic catalog, 13 specified art directions, color and type derivation math, and 64 craft details.
+description: Strip the AI fingerprints from a website without restyling it, and optionally rebuild it around a committed art direction. Use when the user says a site looks AI-generated, generic, template-y, or "like every other SaaS page"; asks to de-slop, de-AI, humanize, clean up, or "make it not look AI"; wants an AI-slop audit or slop score; needs builder watermarks, placeholder text or fabricated testimonials removed; is redesigning an existing site; or is starting a new site, landing page or app and wants it distinctive from the first commit. Defaults to a safe clean pass that never touches the design system; a redesign takes an explicit word. Carries a 286-tell diagnostic catalog, 13 specified art directions, color and type derivation math, and 64 craft details.
 ---
 
 # stop-design-slop
@@ -67,6 +67,7 @@ Read `method.md` first, always. Then read what your phase needs.
 |---|---|
 | `references/clean-pass.md` | **The default mode.** Five tiers of removal, per-tell breakdown, what CLEAN may not touch, the tier-5 report |
 | `references/method.md` | Why removal-only fails, the corrected model, the REDESIGN workflow, the `DESIGN.md` template, dual scoring |
+| `references/redesign.md` | **Tier 5 execution.** The design read, three dials, the category-reflex check, the build-against-bans list, and the pre-flight checklist |
 | `references/art-direction.md` | The process that produces a commitment: brief, attribute disambiguation, competitive audit, divergence, propagation |
 | `references/directions.md` | 13 fully-specified directions with real typefaces and example sites, plus the attribute map and a free type shelf |
 | `references/derivation.md` | Executable math: hue sourcing, OKLCH ramps, APCA contrast solving, type selection and pairing, scale and spacing, radius and shadow systems |
@@ -77,9 +78,9 @@ Read `method.md` first, always. Then read what your phase needs.
 | `references/imagery-icons.md` | Tells #122–153: AI-image artifacts, stock illustration, icons, logos |
 | `references/motion-interaction.md` | Tells #154–183: scroll reveals, hover effects, ambient loops, motion systems |
 | `references/copy-content.md` | Tells #184–251: headline formulas, word blacklist, trust claims, testimonials |
-| `references/code-meta-tells.md` | Tells #252–284: builder watermarks, framework leftovers, dead wiring, a11y |
+| `references/code-meta-tells.md` | Tells #252–284, #286: builder watermarks, framework leftovers, dead wiring, a11y |
 
-284 tells (63 instant, 154 strong, 67 mild) and 64 craft details.
+286 tells (64 instant, 154 strong, 68 mild) and 64 craft details.
 
 ## CLEAN workflow (default)
 
@@ -96,6 +97,8 @@ A worked example lives in `examples/`: `hero-before.html` and `hero-clean.html` 
 ```
 DIAGNOSE  →  BRIEF  →  SPEC  →  REBUILD  →  LINT  →  JUDGE
 ```
+
+**Read `references/redesign.md` before building.** It carries the design read, the three dials, the two-altitude category-reflex check, and the ban list that catches what survives a clean pass: three equal feature cards, div-based fake product UI, gradient text, eyebrows on every section, side-stripe borders, ghost cards, over-rounded corners. `examples/hero-redesign.html` is a worked result.
 
 ### 1. DIAGNOSE (both modes)
 

@@ -1,4 +1,4 @@
-# Catalog 7/7: Tool fingerprints, code & meta tells (#252–284)
+# Catalog 7/7: Tool fingerprints, code & meta tells (#252–284, #286)
 
 Builder watermarks, framework leftovers, head/SEO, dead wiring, bundle smells, a11y and perf tells. You find these by viewing source, opening devtools, and running the grep sweep at the end of this file. A screenshot hides most of them. Anyone who opens the source sees them in seconds. Severity: **instant** / **strong** / **mild** (see SKILL.md).
 
@@ -178,6 +178,11 @@ Fix: export WebP or AVIF, add responsive srcset and sizes, preload the LCP image
 Tell: default blue ::selection and stock mobile tap-highlight on an otherwise "branded" site.
 Why: nobody looked past the template at the details the browser fills in on its own.
 Fix: set ::selection to a brand tint and tune -webkit-tap-highlight-color. Both take a minute, and the kind of visitor who notices is the kind you want.
+
+**286. Version or build stamp on a marketing page** (mild)
+Tell: `v1.4.2`, `Build 0048`, `last sync 4s ago · main` in a landing-page footer or inside a hero preview.
+Why: these are devtool fixtures borrowed to look technical. A docs site, an app shell or a changelog earns a build stamp; a marketing page has no use for one, so its presence marks copied furniture.
+Fix: delete it from marketing surfaces. Keep build and version strings in docs, the app shell, or a dated changelog, where a reader can act on them.
 
 ## VOCAB: the grep sweep (run against source AND built output)
 

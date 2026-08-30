@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>FlowSync — diff your Figma variables against your CSS</title>
+<meta name="description" content="FlowSync diffs Figma variables against your CSS
+  and opens the pull request when they disagree.">
+<meta property="og:title" content="FlowSync — two sources of truth, one diff">
+<meta property="og:image" content="/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ─────────────────────────────────────────────────────────────
+   TIER 5 REDESIGN.
+
+   Design read: developer-tool landing for design engineers,
+   precise / diagrammatic language, Swiss grid on a light ground.
+   Dials: DESIGN_VARIANCE 7 · MOTION_INTENSITY 3 · VISUAL_DENSITY 5
+
+   Category-reflex check, both altitudes:
+   1st order  devtool -> dark mode, mono, neon green.        Refused.
+   2nd order  "devtool that isn't dark" -> cream + Fraunces.  Refused.
+   Landed on: cool paper ground, grotesque + mono, signal
+   orange derived from the CI "changed" flag, which is the
+   product's actual job. Competitor hues cluster at 220-260;
+   the 20-60 arc was empty.
+   ───────────────────────────────────────────────────────────── */
+:root{
+  --paper:#F4F2ED;          /* cool paper, not white, not cream */
+  --ink:#191814;            /* off-black */
+  --ink-2:#57544C;          /* secondary, 7.1:1 on paper */
+  --ink-3:#83807A;          /* metadata */
+  --rule:#D8D5CC;
+  --signal:#B3441A;         /* derived: CI "changed" flag, empty hue arc */
+  --signal-tint:#EFE2D8;
+  --track-display:-0.035em;
+  --ease:cubic-bezier(0.23,1,0.32,1);
+  --r:0;                    /* committed geometry: zero radius everywhere */
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:Archivo,system-ui,sans-serif;
+  font-variant-numeric:tabular-nums lining-nums;
+  font-synthesis:none;
+  line-height:1.5;
+}
+::selection{background:var(--signal-tint);color:var(--ink)}
+:focus-visible{outline:2px solid var(--signal);outline-offset:3px}
+a{color:inherit}
+
+/* 12-col grid, asymmetric spans. Nothing is centered. */
+.grid{
+  display:grid;grid-template-columns:repeat(12,1fr);
+  gap:0 24px;max-width:1240px;margin:0 auto;padding:0 32px;
+}
+
+/* ── nav: hairline-ruled, one line ── */
+nav{border-bottom:1px solid var(--rule)}
+.nav-in{grid-column:1/13;display:flex;align-items:baseline;
+        justify-content:space-between;padding:22px 0}
+.word{font-weight:800;letter-spacing:-0.02em;font-size:19px}
+.nav-links{display:flex;gap:28px;font-size:14px;color:var(--ink-2)}
+.nav-links a{text-decoration:none;padding-bottom:2px;
+             border-bottom:1px solid transparent;transition:border-color 160ms var(--ease)}
+.nav-links a:hover{border-bottom-color:var(--ink)}
+
+/* ── hero: 7 cols of type, 5 cols of diagram, deliberately unequal ── */
+.hero{padding:104px 0 96px;align-items:start}
+.hero-copy{grid-column:1/8}
+h1{
+  font-size:clamp(2.75rem,5.4vw,4.6rem);
+  line-height:1.02;letter-spacing:var(--track-display);
+  font-weight:800;text-wrap:balance;
+  margin-left:-0.04em;               /* optical: align stem, not box */
+}
+h1 .q{color:var(--signal)}
+.lede{
+  margin-top:22px;font-size:19px;line-height:1.5;
+  color:var(--ink-2);max-width:34ch;text-wrap:pretty;
+}
+.actions{margin-top:34px;display:flex;align-items:center;gap:22px}
+.btn{
+  display:inline-block;background:var(--ink);color:var(--paper);
+  font-size:15px;font-weight:500;padding:13px 22px;border-radius:var(--r);
+  text-decoration:none;transition:background 160ms var(--ease);
+}
+.btn:hover{background:var(--signal)}
+.btn:active{transform:translateY(1px)}
+.text-link{font-size:15px;color:var(--ink-2);text-decoration:none;
+           border-bottom:1px solid var(--rule);padding-bottom:2px;
+           transition:border-color 160ms var(--ease),color 160ms var(--ease)}
+.text-link:hover{color:var(--ink);border-bottom-color:var(--ink)}
+.terms{margin-top:26px;font-size:13px;color:var(--ink-3)}
+
+/* ── the diagram: the signature move.
+     Not a simulated product window. A labelled diff of two real values,
+     bleeding past the right container edge. ── */
+.diagram{
+  grid-column:8/13;margin-top:14px;
+  margin-right:calc(50% - 50vw);      /* bleeds off the right edge */
+  padding-right:32px;
+  border-top:2px solid var(--ink);
+}
+.dg-label{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:11px;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--ink-3);padding:10px 0 18px;
+}
+.row{display:flex;align-items:center;gap:16px;padding:16px 0;
+     border-bottom:1px solid var(--rule)}
+.sw{width:44px;height:44px;flex:none;border:1px solid rgba(0,0,0,.14)}
+.val{font-family:"IBM Plex Mono",ui-monospace,monospace;
+     font-size:17px;letter-spacing:-0.01em}
+.src{margin-left:auto;font-size:12px;color:var(--ink-3);
+     font-family:"IBM Plex Mono",ui-monospace,monospace;letter-spacing:0.04em}
+.verdict{display:flex;align-items:baseline;gap:10px;padding:18px 0 0}
+.verdict b{color:var(--signal);font-size:13px;font-weight:500;
+           font-family:"IBM Plex Mono",ui-monospace,monospace;letter-spacing:0.06em}
+.verdict span{font-size:13px;color:var(--ink-3)}
+
+/* ── spec list instead of three equal cards ── */
+.spec{padding:0 0 104px}
+.spec h2{grid-column:1/8;font-size:clamp(1.6rem,2.4vw,2.1rem);
+         letter-spacing:-0.02em;font-weight:700;text-wrap:balance;
+         padding-bottom:30px}
+.dl{grid-column:1/13;border-top:2px solid var(--ink)}
+.dl-row{display:grid;grid-template-columns:2fr 7fr;gap:24px;
+        padding:22px 0;border-bottom:1px solid var(--rule)}
+.dl-row dt{font-family:"IBM Plex Mono",ui-monospace,monospace;
+           font-size:12px;letter-spacing:0.1em;text-transform:uppercase;
+           color:var(--signal);padding-top:3px}
+.dl-row dd{font-size:17px;color:var(--ink);max-width:60ch;text-wrap:pretty}
+
+footer{border-top:1px solid var(--rule);padding:30px 0 60px}
+.foot{grid-column:1/13;display:flex;justify-content:space-between;
+      flex-wrap:wrap;gap:12px;font-size:13px;color:var(--ink-3)}
+.foot a{color:var(--ink-2)}
+
+@media (max-width:900px){
+  .hero-copy,.diagram,.spec h2,.dl,.nav-in,.foot{grid-column:1/13}
+  .diagram{margin-right:0;padding-right:0;margin-top:52px}
+  .dl-row{grid-template-columns:1fr;gap:8px}
+  .hero{padding:64px 0 56px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition-duration:0.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<nav><div class="grid"><div class="nav-in">
+  <span class="word">FlowSync</span>
+  <span class="nav-links">
+    <a href="/docs">Docs</a><a href="/pricing">Pricing</a>
+    <a href="/changelog">Changelog</a><a href="https://github.com/flowsync">GitHub</a>
+  </span>
+</div></div></nav>
+
+<div class="grid hero">
+  <div class="hero-copy">
+    <h1>Two sources of truth.<br>One of them is <span class="q">wrong</span>.</h1>
+    <p class="lede">FlowSync diffs Figma against your CSS and opens the pull request.</p>
+    <div class="actions">
+      <a class="btn" href="/signup">Connect a Figma file</a>
+      <a class="text-link" href="/demo">See a 90-second demo</a>
+    </div>
+    <p class="terms">Free under 200 variables. No card.</p>
+  </div>
+
+  <figure class="diagram">
+    <figcaption class="dg-label">brand / primary</figcaption>
+    <div class="row">
+      <span class="sw" style="background:#6366F1"></span>
+      <span class="val">#6366F1</span>
+      <span class="src">figma</span>
+    </div>
+    <div class="row">
+      <span class="sw" style="background:#635BFF"></span>
+      <span class="val">#635BFF</span>
+      <span class="src">tokens.css</span>
+    </div>
+    <div class="verdict">
+      <b>DRIFT</b><span>caught 4 days after the rename</span>
+    </div>
+  </figure>
+</div>
+
+<section class="grid spec">
+  <h2>What it does, in four lines.</h2>
+  <dl class="dl">
+    <div class="dl-row"><dt>Polls</dt>
+      <dd>The Figma Variables API every 60&nbsp;seconds.</dd></div>
+    <div class="dl-row"><dt>Catches</dt>
+      <dd>Renames and deletions, not only changed values.</dd></div>
+    <div class="dl-row"><dt>Delivers</dt>
+      <dd>A pull request against your repo with both swatches inline.</dd></div>
+    <div class="dl-row"><dt>Blocks</dt>
+      <dd>Any token change that drops shipped text under 4.5:1.</dd></div>
+  </dl>
+</section>
+
+<footer><div class="grid"><div class="foot">
+  <span>Built by two people in Kraków. <a href="mailto:hi@flowsync.dev">hi@flowsync.dev</a></span>
+  <span>Not built for teams over 200 designers.</span>
+  <span><a href="/privacy">Privacy</a> &nbsp; <a href="/terms">Terms</a></span>
+</div></div></footer>
+
+</body>
+</html>

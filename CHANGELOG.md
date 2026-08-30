@@ -1,5 +1,16 @@
 # Changelog
 
+## v2.4.0, 2026-08-29
+
+Feedback was that the page still read generated after tiers 1 to 4, which is correct: those tiers remove evidence and leave every structural default standing. A clean page also has nowhere to hide, so stripping decoration exposes that nothing underneath was decided. Tier 5 needed real guidance and a worked result.
+
+- **`references/redesign.md`,** the tier 5 execution guide. The design read, three dials (DESIGN_VARIANCE, MOTION_INTENSITY, VISUAL_DENSITY), the two-altitude category-reflex check, a build-against-bans list, the never-ship-the-first-version rule, and a pre-flight checklist. Synthesized from the `design-taste` skill plus published writing on why minimal work reads generic without art direction.
+- **The category-reflex check at two altitudes,** which is the step that decides whether a redesign is real. First order: could somebody guess your palette from the category alone. Second order: could they guess it from category plus the obvious anti-reference ("devtool that is not terminal-dark, so cream and a serif"). Both have to fail.
+- **`examples/hero-redesign.html`,** the same page through that process. Cool paper rather than dark, Archivo rather than Inter, a signal orange derived from the CI changed-flag rather than indigo, zero radius committed everywhere, an asymmetric 7/5 grid rather than a centered stack, a four-row spec list rather than three equal cards, and a labelled diff of two real hex values bleeding past the right edge as the signature move. `examples/README.md` documents both refused reflexes.
+- **Two new tells, found by auditing this repo's own examples against `design-taste`.** #285 div-based fake product UI, which practitioners rank the single most reliable sign a model built the page, and which the clean example was committing. #286 version or build stamp on a marketing page.
+- **Corrected `craft-details.md`,** which had recommended a build stamp as content specificity. Build and version strings belong in docs, an app shell or a changelog, never a marketing footer.
+- Catalog now 286 tells. Examples show the hero at four depths.
+
 ## v2.3.0, 2026-08-29
 
 - **New tier 4 rule: specific does not mean longer.** Chasing specificity into verbosity is the failure mode of that tier, and this repo committed it on its own example. The first cleaned hero ran 42 words across headline, subhead and note, against 41 in the slop original: no reduction at all, and it read denser because the headline wrapped to three lines. Every claim in it was true and it was still worse. The rule now sets a length budget: headline 8 words or fewer over two rendered lines, subhead one sentence, feature blurbs under 15 words, and count the words before and after, since a rewrite that raises the total has failed.

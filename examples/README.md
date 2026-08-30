@@ -1,14 +1,17 @@
-# Worked example: one hero at three depths
+# Worked example: one hero at four depths
 
 | Before | Tiers 1 to 2 | Tiers 1 to 4 |
 |---|---|---|
 | <img src="hero-before.png" alt="Slop hero with pulsing sparkle badge, gradient keyword, glow orbs and fabricated social proof"> | <img src="hero-tier2.png" alt="Same hero with the design untouched, minus the builder badge and the fabricated social proof"> | <img src="hero-clean.png" alt="Cleaned hero in the same visual language with a short concrete headline"> |
 
-Three self-contained HTML files, plus the screenshots above.
+<img src="hero-redesign.png" alt="Redesigned hero on cool paper with Archivo display, an asymmetric grid and a diff diagram bleeding off the right edge">
+
+Four self-contained HTML files, plus the screenshots above.
 
 - **`hero-before.html`** — a hero carrying about 25 catalogued tells, of the kind a builder emits from a one-line prompt.
 - **`hero-tier2.html`** — the same page after tiers 1 and 2 only.
 - **`hero-clean.html`** — the same page after tiers 1 to 4.
+- **`hero-redesign.html`** — tier 5, built through `references/redesign.md`.
 
 ## Why the middle one matters
 
@@ -55,6 +58,7 @@ That gap it does *not* close, namely that the typeface and palette are still fra
 - Body text `#71717a` on `#0a0a0a` raised to `#a1a1aa`, which passes 4.5:1 (#68)
 - `:focus-visible` ring added, since there was none (#279)
 - Meta description and Open Graph tags added (#265, #266)
+- The `[ product screenshot ]` placeholder box removed (#248, #285). An honest empty space beats a simulated interface.
 
 After tier 1 alone, the page still looks like the before screenshot. That is the guarantee.
 
@@ -85,7 +89,7 @@ After tier 1 alone, the page still looks like the before screenshot. That is the
 - Styled `::selection` in the existing accent (C38)
 - Asymmetric transition timing, faster in than out (C53)
 - Non-breaking space in "60 seconds" (C19)
-- A stated limitation, a build stamp, and a real updated date (content specificity)
+- A stated limitation and a real updated date (content specificity). No build stamp: that is tell #286 on a marketing page.
 
 ### Tier 5, DIRECTION (reported, not applied)
 Still present in `hero-clean.html`, and correctly so:
@@ -95,6 +99,38 @@ Still present in `hero-clean.html`, and correctly so:
 - Centered single-column hero stack (#2) and a three-column feature grid (#26)
 
 Fixing any one of these alone swaps a default for the next default. Together they need a committed direction, which is what `references/directions.md` and `references/derivation.md` are for.
+
+## Tier 5: what the redesign actually decided
+
+Feedback on the clean version was that it still read a bit generated, which is correct and expected. Tiers 1 to 4 remove evidence; they leave every structural default standing. After the clean pass the page still ran Inter (#94) on default indigo (#64) over a near-black ground (#65), in a centered stack (#2) with a three-card grid (#26) at a uniform radius (#87). A clean page also has nowhere to hide, so stripping the decoration exposes that nothing underneath was decided.
+
+`hero-redesign.html` runs the tier 5 process.
+
+**Design read.** Developer-tool landing for design engineers, precise and diagrammatic language, Swiss grid on a light ground.
+**Dials.** DESIGN_VARIANCE 7, MOTION_INTENSITY 3, VISUAL_DENSITY 5. A variance of 7 rules out the centered stack by itself.
+
+**Category-reflex check, both altitudes.** This is the step that decides whether a redesign is real.
+
+- *First order:* devtool points at dark mode, monospace and a neon accent. Refused.
+- *Second order:* "devtool that is not terminal-dark" points at cream plus an editorial serif such as Fraunces. Refused, because the second reflex is the trap one tier deeper.
+- *Landed on:* a cool paper ground (#F4F2ED, neither white nor cream), a grotesque paired with mono, and a signal orange (#B3441A) derived from the CI "changed" flag, which is the product's actual job. Competitor hues cluster at 220 to 260; the 20 to 60 arc was empty.
+
+**The moves.**
+
+| Decision | Instead of |
+|---|---|
+| Archivo display, IBM Plex Mono for values | Inter for everything |
+| Signal orange from the changed-flag | Default indigo |
+| Cool paper ground | Near-black dark mode |
+| Zero radius, committed everywhere | Uniform 12 and 16px |
+| Asymmetric 7/5 grid, nothing centered | Centered single-column stack |
+| A four-row spec list | Three equal feature cards |
+| Hairline rules | Bordered cards |
+| A labelled diff of two real hex values, bleeding past the right edge | A div-based fake screenshot |
+
+The last row is the signature move and the one competitors would not make: the hero *is* the product's output. It also fixed a defect in the clean version, which contained an empty bordered box captioned `[ real screenshot ]`. That is div-based fake product UI, ranked by practitioners as the single most reliable sign a model built the page, and this repo's catalog did not cover it until now. It is tell #285.
+
+**Two other repo bugs this caught.** The clean version carried `v0.9.2 · updated 12 Aug 2026` in the footer, and `craft-details.md` recommended a build stamp as content specificity. Version strings are devtool fixtures that belong in docs or a changelog, never a marketing footer. That is now tell #286, and the craft entry is corrected.
 
 ## Regenerating screenshots
 

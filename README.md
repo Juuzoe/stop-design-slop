@@ -9,7 +9,7 @@ Strips the AI fingerprints without restyling your site. Rebuilds around a commit
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-ready-6b4bff.svg)](#install)
 [![Codex](https://img.shields.io/badge/Codex-ready-0b7285.svg)](#install)
-[![Catalog](https://img.shields.io/badge/tells-284-orange.svg)](#the-diagnostic-half)
+[![Catalog](https://img.shields.io/badge/tells-286-orange.svg)](#the-diagnostic-half)
 [![Directions](https://img.shields.io/badge/directions-13-blue.svg)](#the-generative-half)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
@@ -76,11 +76,15 @@ Every tell is assigned a tier, ordered by how much judgment it needs and how muc
 
 Per-tell breakdown in [clean-pass.md](references/clean-pass.md).
 
-## One hero at three depths
+## One hero at four depths
 
 | Before, ~25 tells | Tiers 1 to 2 | Tiers 1 to 4 |
 |---|---|---|
 | <img src="examples/hero-before.png" alt="Slop hero: pulsing sparkle badge, gradient keyword headline, purple glow orbs, stock avatars claiming 10,000 developers, Lovable badge in the corner"> | <img src="examples/hero-tier2.png" alt="Same hero with the design untouched, minus the builder badge and the fabricated social proof"> | <img src="examples/hero-clean.png" alt="Cleaned hero in the same visual language with a short concrete headline"> |
+
+<img src="examples/hero-redesign.png" alt="Redesigned hero: cool paper ground, Archivo grotesque display at large scale, an asymmetric 7-5 grid, a diff diagram bleeding off the right edge, signal orange accent">
+
+**Tier 5, the redesign.** Cool paper rather than dark, Archivo rather than Inter, a signal orange derived from the CI changed-flag rather than indigo, zero radius committed everywhere, an asymmetric 7/5 grid rather than a centered stack, a spec list rather than three equal cards, and the diff diagram bleeding past the right edge as the signature move.
 
 **Tiers 1 and 2 leave the design alone.** The glow orbs, the gradient keyword, the sparkle badge, the emoji icons and "Supercharge Your Workflow" all survive, because removing decoration is tier 3 and rewriting copy is tier 4. Only the broken and the untrue went: the `Create Next App` title, the Lovable badge, `href="#"`, lorem ipsum, failing contrast, a missing focus ring, then the Acme Corp logo bar, the invented stat row and "★★★★★ Loved by 10,000+ developers".
 
@@ -184,17 +188,17 @@ Directions are chosen through three filters so different projects land in differ
 
 ## The diagnostic half
 
-Seven catalogs, 284 numbered tells, used for diagnosis and lint rather than as a repair list.
+Seven catalogs, 286 numbered tells, used for diagnosis and lint rather than as a repair list.
 
 | Catalog | Tells | For example |
 |---|---|---|
 | [Structure & layout](references/structure-layout.md) | #1–63 | #1 the "✨ Announcing" pill badge · #10 the hero→logos→features→pricing→FAQ conveyor belt |
 | [Color & effects](references/color-effects.md) | #64–93 | #64 untouched indigo-500 · #77 blurred glow orbs |
 | [Typography](references/typography.md) | #94–121 | #94 Inter as the only typeface · #107 gradient keyword via `bg-clip-text` |
-| [Imagery & icons](references/imagery-icons.md) | #122–153 | #123 six-fingered hero art · #144 emoji as feature icons |
+| [Imagery & icons](references/imagery-icons.md) | #122–153, #285 | #123 six-fingered hero art · #144 emoji as feature icons |
 | [Motion & interaction](references/motion-interaction.md) | #154–183 | #154 fade-up on every section · #170 particle backgrounds |
 | [Copy & content](references/copy-content.md) | #184–251 | #184 "Supercharge Your Workflow" · #228 "Trusted by 10,000+ teams" |
-| [Code & meta](references/code-meta-tells.md) | #252–284 | #252 the Lovable badge · #271 contact forms wired to nothing |
+| [Code & meta](references/code-meta-tells.md) | #252–284, #286 | #252 the Lovable badge · #271 contact forms wired to nothing |
 
 Each catalog ends with a **VOCAB block** of exact greppable strings, so diagnosis works on source before anything renders.
 

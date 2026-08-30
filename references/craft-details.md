@@ -231,7 +231,7 @@ Every item here is unfakeable, because it derives from facts only you have.
 - **Credits on every image.** `Photo: Nadia Reyes, 2024`, set in small caps and muted. Stock and generated imagery never carries a name.
 - **Machine-readable dates.** `<time datetime="2026-03-14">14 March 2026</time>`, and where it matters, "Published 14 Mar · Updated 2 Aug".
 - **A "last updated" that is wired up.** Derive it from git commit time or CMS `updatedAt` at build. A date that never changes is worse than none.
-- **A build stamp in the footer.** `v2.4.1 · 8f3c9d2` at 0.75rem, muted.
+- **A build stamp, on the right surface only.** `v2.4.1` at 0.75rem, muted, in a docs footer, an app shell or a changelog. Keep it off marketing pages, where `v1.4.2` and `last sync 4s ago` read as devtool fixtures rather than content.
 - **A changelog somebody wrote.** "Fixed: CSV export dropped the last row when the table was filtered. Reported by @ptr." Generated changelogs all say "improved performance and fixed bugs."
 - **Footnotes with backlinks**, plus `scroll-margin-block-start` on both ends and an `aria-label` on the return arrow.
 - **Author attribution with roles.** "Words by Maya Osei. Charts by Tom Lin." Division of labor implies real labor.
@@ -280,7 +280,7 @@ Every item here is unfakeable, because it derives from facts only you have.
 12. **C15 `text-box: trim-both`.** Deletes the whole "label sits high in the button" class of bug.
 13. **C46 Rules rather than boxes.** The cheapest way to stop looking like a component-library demo.
 14. **C4 `font-synthesis: none`.** Stops shipping smeared glyphs.
-15. **Content specificity.** A working "last updated", a build stamp, one real credit, one honest limitation.
+15. **Content specificity.** A working "last updated", one real credit, one honest limitation. Build stamps belong in docs and app shells, never on a landing page.
 
 ## Sources
 

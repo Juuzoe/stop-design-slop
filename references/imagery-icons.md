@@ -1,4 +1,4 @@
-# Catalog 4/7: Imagery, illustrations, icons & logos (#122–153)
+# Catalog 4/7: Imagery, illustrations, icons & logos (#122–153, #285)
 
 AI-image artifacts, cliché subjects, stock illustration systems, product imagery, icon treatments, logo/favicon tells. Severity: **instant** / **strong** / **mild** (see SKILL.md).
 
@@ -173,6 +173,11 @@ Fix: redraw the mark as clean vectors and put it through three tests: it holds a
 Tell: the logo is a PNG or JPG with white halo pixels on dark backgrounds, soft at retina sizes, with no one-color or reversed variant anywhere.
 Why: generated logos arrive as one glossy image because nobody thought about production.
 Fix: rebuild the mark as SVG on a transparent background, add one-color and reversed variants, and swap every instance sitewide.
+
+**285. Div-based fake product UI** (instant)
+Tell: a product preview built out of styled `<div>` rectangles rather than a screenshot: a fake task list, a fake terminal, a fake dashboard, or an empty bordered box captioned `[ screenshot ]`. Often finished with a fake version string inside it.
+Why: practitioners rank this the single most reliable sign that a model built the page. A team with a product screenshots the product, and a team without one does not draw a picture of the gap.
+Fix: use a real screenshot, a real embedded component, or no preview at all. An honest empty space beats a simulated interface. If the feature is unbuilt, show a designed frame labelled as a mock, or cut the slot until it ships.
 
 ## VOCAB: greppable signals for this file
 

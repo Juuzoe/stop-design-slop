@@ -81,7 +81,7 @@ This tier is what stops a clean pass trending toward bland. Removal lowers the S
 
 From `craft-details.md`: C1 real punctuation (curly quotes, true dashes, real ellipsis). C4 `font-synthesis: none`. C7 tabular figures on anything numeric. C11 `text-wrap: balance` on headings. C12 `text-wrap: pretty` on prose. C14 tracking tuned by size, using the face already loaded. C20 a measured measure at 66ch. C38 a styled `::selection` in the existing accent. C39 a focus ring in the existing brand color. C45 underline craft on links. C52 five genuinely distinct control states. C63 and C64 real empty and error states.
 
-**Content specificity**, which is unfakeable and costs nothing: real dates in `<time>`, a "last updated" wired to git, a build stamp, image credits, alt text with voice, one honest limitation stated next to the feature it affects.
+**Content specificity**, which is unfakeable and costs nothing: real dates in `<time>`, a "last updated" wired to git, image credits, alt text with voice, one honest limitation stated next to the feature it affects. Build stamps and version strings belong in docs, an app shell or a changelog; on a marketing page they read as devtool fixtures.
 
 ### Specific does not mean longer
 
