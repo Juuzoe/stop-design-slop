@@ -9,7 +9,7 @@ Strips the AI fingerprints without restyling your site. Rebuilds around a commit
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-ready-6b4bff.svg)](#install)
 [![Codex](https://img.shields.io/badge/Codex-ready-0b7285.svg)](#install)
-[![Catalog](https://img.shields.io/badge/tells-286-orange.svg)](#the-diagnostic-half)
+[![Catalog](https://img.shields.io/badge/tells-287-orange.svg)](#the-diagnostic-half)
 [![Directions](https://img.shields.io/badge/directions-13-blue.svg)](#the-generative-half)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
@@ -188,7 +188,7 @@ Directions are chosen through three filters so different projects land in differ
 
 ## The diagnostic half
 
-Seven catalogs, 286 numbered tells, used for diagnosis and lint rather than as a repair list.
+Seven catalogs, 287 numbered tells, used for diagnosis and lint rather than as a repair list.
 
 | Catalog | Tells | For example |
 |---|---|---|
@@ -197,19 +197,34 @@ Seven catalogs, 286 numbered tells, used for diagnosis and lint rather than as a
 | [Typography](references/typography.md) | #94–121 | #94 Inter as the only typeface · #107 gradient keyword via `bg-clip-text` |
 | [Imagery & icons](references/imagery-icons.md) | #122–153, #285 | #123 six-fingered hero art · #144 emoji as feature icons |
 | [Motion & interaction](references/motion-interaction.md) | #154–183 | #154 fade-up on every section · #170 particle backgrounds |
-| [Copy & content](references/copy-content.md) | #184–251 | #184 "Supercharge Your Workflow" · #228 "Trusted by 10,000+ teams" |
+| [Copy & content](references/copy-content.md) | #184–251, #287 | #184 "Supercharge Your Workflow" · #228 "Trusted by 10,000+ teams" |
 | [Code & meta](references/code-meta-tells.md) | #252–284, #286 | #252 the Lovable badge · #271 contact forms wired to nothing |
 
 Each catalog ends with a **VOCAB block** of exact greppable strings, so diagnosis works on source before anything renders.
+
+## What it measures, not just what it reads
+
+Prose rules need an agent to recognize a pattern. [`signals.md`](references/signals.md) holds the ones you can compute, which matters because a rule an agent can check against its own output produces compliance, while one it cannot check produces over-correction.
+
+**Layout counters** turn design defaults into numbers: distinct font families (1 is a tell), distinct weights (2 despite a variable font), H1-to-body ratio (under 1.25 is a flat scale), section-padding variance (0 is a metronome), distinct radii, grid columns, elements crossing a section boundary (0 means no tension), accent surface area (should sit between 4% and 12%).
+
+**Copy counters**: blacklist phrase density, headline word count, em dashes per 100 words, unsourced numerals, and invisible characters (`U+200B`, `U+FEFF`), which peer detectors all check and this catalog missed until now.
+
+**Build greps** are exact and instant, so run them first: builder fingerprints, placeholder residue, chat-transcript leakage, secrets in the client bundle.
+
+Burstiness and type-token ratio are included **with their limits stated**. They work as editing prompts and fail as detectors, since burstiness converges toward human levels as models scale and perplexity-based detection misclassifies famous human documents. Low burstiness means go vary your sentence lengths, which is good advice whoever wrote the text. It is never evidence that a page was generated.
 
 ## Scoring, on two axes
 
 A single slop score rewards deletion, so the skill scores commitment too.
 
 ```
-Slop Score       = 3×instant + 2×strong + 1×mild
+raw              = 3×instant + 2×strong + 1×mild
+Slop Index       = round(100 × raw / (raw + 40))     0 to 100
 Commitment Score = filled, propagated, nameable decisions
 ```
+
+The index is reported with a per-category breakdown, because one number hides which half is broken. A page at index 47 carrying 23 of it in copy needs a copy pass, not a redesign.
 
 | Slop | Commitment | Verdict |
 |---|---|---|

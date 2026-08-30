@@ -1,4 +1,4 @@
-# Catalog 6/7: Copy & content (#184–251)
+# Catalog 6/7: Copy & content (#184–251, #287)
 
 Headlines, AI sentence constructions, word blacklist, CTAs, section copy, trust signals, testimonials, FAQ, about pages, blog, content hygiene. Severity: **instant** / **strong** / **mild** (see SKILL.md).
 
@@ -365,6 +365,11 @@ Fix: dynamic year, correct legal entity name; read your own footer once.
 Tell: Privacy Policy/Terms containing "[Company Name]", the wrong company, boilerplate describing data the site never collects, no contact address.
 Why: the publisher never read the generated legal text. That carries legal exposure on top of the aesthetic problem.
 Fix: use a reputable policy service or counsel, with the real entity, jurisdiction, and data practices. Grep legal pages for brackets and other product names.
+
+**287. Invisible characters from the copy pipeline** (mild)
+Tell: zero-width spaces (`U+200B`, `U+200C`, `U+200D`), a byte-order mark (`U+FEFF`), or a non-breaking space sitting where a plain space belongs, left in the rendered text.
+Why: model output and chat-window copy-paste carry these through. They are invisible on screen, so nobody proofreads them out, and they break search, text selection and screen readers.
+Fix: strip them in the content pipeline. A grep for the zero-width range over the built output catches them, and it belongs in the pre-deploy check next to the placeholder grep.
 
 ## VOCAB: the blacklist (grep rendered text; rewrite each hit rather than deleting it)
 

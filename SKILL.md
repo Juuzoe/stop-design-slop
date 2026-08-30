@@ -1,6 +1,6 @@
 ---
 name: stop-design-slop
-description: Strip the AI fingerprints from a website without restyling it, and optionally rebuild it around a committed art direction. Use when the user says a site looks AI-generated, generic, template-y, or "like every other SaaS page"; asks to de-slop, de-AI, humanize, clean up, or "make it not look AI"; wants an AI-slop audit or slop score; needs builder watermarks, placeholder text or fabricated testimonials removed; is redesigning an existing site; or is starting a new site, landing page or app and wants it distinctive from the first commit. Defaults to a safe clean pass that never touches the design system; a redesign takes an explicit word. Carries a 286-tell diagnostic catalog, 13 specified art directions, color and type derivation math, and 64 craft details.
+description: Strip the AI fingerprints from a website without restyling it, and optionally rebuild it around a committed art direction. Use when the user says a site looks AI-generated, generic, template-y, or "like every other SaaS page"; asks to de-slop, de-AI, humanize, clean up, or "make it not look AI"; wants an AI-slop audit or slop score; needs builder watermarks, placeholder text or fabricated testimonials removed; is redesigning an existing site; or is starting a new site, landing page or app and wants it distinctive from the first commit. Defaults to a safe clean pass that never touches the design system; a redesign takes an explicit word. Carries a 287-tell diagnostic catalog, 13 specified art directions, color and type derivation math, and 64 craft details.
 ---
 
 # stop-design-slop
@@ -72,15 +72,16 @@ Read `method.md` first, always. Then read what your phase needs.
 | `references/directions.md` | 13 fully-specified directions with real typefaces and example sites, plus the attribute map and a free type shelf |
 | `references/derivation.md` | Executable math: hue sourcing, OKLCH ramps, APCA contrast solving, type selection and pairing, scale and spacing, radius and shadow systems |
 | `references/craft-details.md` | 64 implementable details (C1–C64) that signal a human hand |
+| `references/signals.md` | **Computable signals.** What to measure rather than eyeball: layout counters, contrast, phrase density, invisible characters, build greps, and the normalized Slop Index |
 | `references/structure-layout.md` | Tells #1–63: architecture, heroes, sections, grids, spacing, nav, footer, IA, mobile |
 | `references/color-effects.md` | Tells #64–93: palettes, gradients, glow, glass, borders, radius, shadows |
 | `references/typography.md` | Tells #94–121: font choice, pairing, hierarchy, headline styling, casing |
 | `references/imagery-icons.md` | Tells #122–153: AI-image artifacts, stock illustration, icons, logos |
 | `references/motion-interaction.md` | Tells #154–183: scroll reveals, hover effects, ambient loops, motion systems |
-| `references/copy-content.md` | Tells #184–251: headline formulas, word blacklist, trust claims, testimonials |
+| `references/copy-content.md` | Tells #184–251, #287: headline formulas, word blacklist, trust claims, testimonials |
 | `references/code-meta-tells.md` | Tells #252–284, #286: builder watermarks, framework leftovers, dead wiring, a11y |
 
-286 tells (64 instant, 154 strong, 68 mild) and 64 craft details.
+287 tells (64 instant, 154 strong, 69 mild) and 64 craft details.
 
 ## CLEAN workflow (default)
 
@@ -157,9 +158,12 @@ Re-screenshot desktop and mobile, rerun the 5-second test, and score both axes.
 ## Scoring
 
 ```
-Slop Score       = 3×instant + 2×strong + 1×mild        (lower is better)
-Commitment Score = filled, propagated, nameable decisions (higher is better)
+raw              = 3×instant + 2×strong + 1×mild
+Slop Index       = round(100 × raw / (raw + 40))          0 to 100, lower is better
+Commitment Score = filled, propagated, nameable decisions  higher is better
 ```
+
+Report the **per-category breakdown** next to the index, since one number hides which half is broken. A page at index 47 whose copy carries 23 of it needs a copy pass, not a redesign. See `references/signals.md`.
 
 | Slop | Commitment | Verdict |
 |---|---|---|

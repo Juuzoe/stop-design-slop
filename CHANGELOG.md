@@ -1,5 +1,15 @@
 # Changelog
 
+## v2.5.0, 2026-08-29
+
+Surveyed the prior art (the avoid-slop directory, slopdetector, GPTZero, the humanizer and unslop families) and took what this skill was missing. Peers are ahead on measurement and on rewrite safety; this repo was ahead on the redesign half and on design-specific tells.
+
+- **`references/signals.md`,** the computable layer. Layout counters (font families, weights, type-scale ratio, section-padding variance, distinct radii, grid columns, boundary crossings, accent surface area), computed contrast, copy counters, and build greps. This matters beyond convenience: `method.md` documents that a rule an agent cannot verify against its own output produces over-correction rather than compliance, so moving rules from prose to arithmetic is a correctness fix.
+- **Slop Index, normalized 0 to 100** with a per-category breakdown, replacing the unbounded raw score in reports. One number hides which half is broken; a page at index 47 carrying 23 of it in copy needs a copy pass rather than a redesign. Borrowed from slopdetector's weighted-dimension approach.
+- **Burstiness and type-token ratio, with their limits stated.** Included as editing prompts and explicitly not as detectors, since burstiness converges toward human levels as models scale and perplexity-based detection misclassifies famous human documents. Peer-reviewed work exists on why both fail at classification.
+- **Two rewrite rails in tier 4, taken from peer tools.** *Preserve the voice*: you are removing the model's defaults, not installing yours, so find sentences the author clearly wrote and treat those as the target register. *Lock the claims*: a rewrite may change how something is said and never what is asserted, so restate the claim set before and after and treat any drift as a bug. Without these, a copy pass is second-order conformity, with everybody's page ending up in the voice of whoever wrote the rule set.
+- **Tell #287, invisible characters** (`U+200B`, `U+200C`, `U+200D`, `U+FEFF`) left by model output and chat-window paste. Every peer text detector checks these and this catalog did not. Catalog now 287.
+
 ## v2.4.0, 2026-08-29
 
 Feedback was that the page still read generated after tiers 1 to 4, which is correct: those tiers remove evidence and leave every structural default standing. A clean page also has nowhere to hide, so stripping decoration exposes that nothing underneath was decided. Tier 5 needed real guidance and a worked result.

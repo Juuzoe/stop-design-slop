@@ -99,6 +99,18 @@ Rules for this tier:
 
 This repo made the mistake on its own example. The first cleaned hero ran 42 words across headline, subhead and note, against 41 in the slop original: no reduction at all, and it read denser because the headline wrapped to three lines. The current version says more in 22. See `examples/README.md`.
 
+### Preserve the voice, lock the claims
+
+Two rails that stop tier 4 turning every site into the same site. Peer tools converged on both, and without them a copy pass is second-order conformity: everybody's page ends up sounding like whoever wrote the rule set.
+
+**Preserve the voice.** You are removing the model's defaults, not installing yours. If the author writes long sentences, keep long sentences. If they are blunt, stay blunt. If they are funny, the fix is not to make them neutral. Edit surgically, at the level of the offending phrase, and leave everything around it alone. A rewrite that reads better than the original but sounds like a different person has failed, because it swapped one borrowed voice for another.
+
+Before rewriting a page, find two or three sentences the author clearly wrote themselves, and treat those as the target register. Where no such sentence exists, ask rather than invent one.
+
+**Lock the claims.** A rewrite may change how something is said and never what is asserted. Hold constant every number, product name, capability, limit, price, date and guarantee. When a claim is vague, ask for the fact rather than inventing a sharper-sounding one, since a confident invented specific is worse than the vague original.
+
+Restate the claim set before and after. Anything that appears, disappears or shifts in the after list is a bug, even when the new copy reads better.
+
 **Copy rewrites** belong here, and they carry more signal per edit than anything else in the CLEAN pass, because readers detect slop through language faster than through layout. Work the blacklist in `copy-content.md`: headline formulas (#184 to #192), AI sentence constructions (#193 to #203), the word list (#204 to #215), generic CTAs rewritten to name the actual action (#216), exclamation saturation (#218), emoji in headings (#219), feature-card copy given specifics (#222), generic section headings made into assertions (#224), and default empty-state and 404 microcopy (#221).
 
 ---
